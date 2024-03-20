@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfpa37nw77g73"]
+
+[ext_resource type="Script" path="res://AstarPath.cs" id="1_nvcqi"]
+
+[node name="AstarPath" type="Node3D"]
+script = ExtResource("1_nvcqi")
