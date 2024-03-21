@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://whi217sqeyck"]
 
 [ext_resource type="MeshLibrary" uid="uid://cj5lnp1klnlcb" path="res://CubeTileSet.tres" id="1_3oteg"]
-[ext_resource type="PackedScene" uid="uid://bryhytotfe7c7" path="res://Tactics_Camera.tscn" id="2_xdvid"]
+[ext_resource type="PackedScene" uid="uid://0gfxfe31xv1q" path="res://Gimbal.tscn" id="2_8r1re"]
 
 [node name="Main" type="Node3D"]
 
@@ -16,5 +16,5 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_xdvid")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.14435, 4.79329, 16.3278)
+[node name="Camera" parent="." instance=ExtResource("2_8r1re")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493036, 0)
