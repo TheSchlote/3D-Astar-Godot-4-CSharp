@@ -6,17 +6,148 @@ public partial class AstarPath : Node3D
 {
 	public List<Vector3> PathNodeList = new List<Vector3>();
 	private GridMap GridMapWorld;
-	private AStar3D AStar3DPath = new AStar3D();
+    Godot.Collections.Array NonWalkableCells = new Godot.Collections.Array();
+    private AStar3D AStar3DPath = new AStar3D();
 	private Vector3 PathStartPos = Vector3.Zero;
 	private Vector3 PathEndPos = Vector3.Zero;
+    private Vector3 MapSize = Vector3.Zero;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 
 	}
+    private void GetGridMapBounds()
+    {
+        var minX = int.MaxValue;
+        var minY = int.MaxValue;
+        var minZ = int.MaxValue;
+        var maxX = int.MinValue;
+        var maxY = int.MinValue;
+        var maxZ = int.MinValue;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+        // Iterate over all cells in the GridMap
+        foreach (Vector3 cell in GridMapWorld.GetUsedCells())
+        {
+            minX = Mathf.Min(minX, (int)cell.X);
+            minY = Mathf.Min(minY, (int)cell.Y);
+            minZ = Mathf.Min(minZ, (int)cell.Z);
+            maxX = Mathf.Max(maxX, (int)cell.X);
+            maxY = Mathf.Max(maxY, (int)cell.Y);
+            maxZ = Mathf.Max(maxZ, (int)cell.Z);
+
+        }
+        GD.Print("Min X: " + minX);
+        GD.Print("Min Y: " + minY);
+        GD.Print("Min Z: " + minZ);
+        GD.Print("Max X: " + maxX);
+        GD.Print("Max Y: " + maxY);
+        GD.Print("Max Z: " + maxZ);
+        // The size of the GridMap in cells
+        Vector3 gridSize = new Vector3(maxX - minX + 1, maxY - minY + 1, maxZ - minZ + 1);
+        GD.Print("Grid Size: ", gridSize);
+        MapSize = gridSize;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 	}
+    public void SetGridMap(GridMap gridMap)
+    {
+        GridMapWorld = gridMap;                                     
+
+        InitAstarPathFind();
+    }
+    private void InitAstarPathFind()
+    {
+        GetGridMapBounds();  // Get the GridMap boundaries
+
+
+        // Replace this with your method for determining non-walkable cells in a GridMap
+        NonWalkableCells = GetNonWalkableCells();
+
+        var walkableCellsList = AddWalkableCells(NonWalkableCells);  // Get the walkable cells
+
+
+            ConnectWalkableCells(walkableCellsList);  // Connect walkable cells for orthogonal movement only
+        
+
+        // Set the start and end position in 3D space
+        SetPathStartPosition(Vector3.Zero);
+        SetPathEndPosition(Vector3.Zero);
+    }
+    private Godot.Collections.Array GetNonWalkableCells()
+    {
+        // Create an array to hold non-walkable cells
+        Godot.Collections.Array nonWalkableCells = new Godot.Collections.Array();
+
+        // Loop through all cells in the GridMap
+        for (int z = 0; z < MapSize.Z; ++z)
+        {
+            for (int y = 0; y < MapSize.Y; ++y)
+            {
+                for (int x = 0; x < MapSize.X; ++x)
+                {
+                    // Check the cell above the current cell
+                    Vector3I cellAbove = new Vector3I(x, y + 1, z);
+
+                    // If there is a cube in the cell above, the current cell is non-walkable
+                    if (GridMapWorld.GetCellItem(cellAbove) != -1)
+                    {
+                        // Add the current cell to the non-walkable array
+                        nonWalkableCells.Add(new Vector3(x, y, z));
+                    }
+                }
+            }
+        }
+
+        return nonWalkableCells;
+    }
+    private Godot.Collections.Array AddWalkableCells(Godot.Collections.Array nonWalkableCells)
+    {
+        // Create a new array for the walkable cells
+        Godot.Collections.Array walkableCells = new Godot.Collections.Array();
+
+        // Loop through all cells on the GridMap
+        for (int z = 0; z < MapSize.Z; ++z)
+        {
+            for (int y = 0; y < MapSize.Y; ++y)
+            {
+                for (int x = 0; x < MapSize.X; ++x)
+                {
+                    // Get the cell at the x, y, z position
+                    var cell = new Vector3(x, y, z);
+
+                    // If the cell is a non-walkable cell
+                    if (nonWalkableCells.Contains(cell))
+                    {
+                        // Go to the next cell in the loop
+                        continue;
+                    }
+
+                    // Add the cell to the walkable cells list
+                    walkableCells.Add(cell);
+
+                    // Calculate the unique cell id for the 3D position
+                    var cellId = CalculateUniqueCellIdentifier(cell);
+
+                    // Add the cell to the list of points in the AStar2D (which should be changed to an AStar for 3D)
+                    AStar3DPath.AddPoint(cellId, cell);
+                }
+            }
+        }
+
+        // Return the list of walkable cells
+        return walkableCells;
+    }
+    private int CalculateUniqueCellIdentifier(Vector3 cell)
+    {
+        // Assuming that MapSize is the size of the grid
+        // and that no grid will be larger than some reasonable limits
+        // (in this case, we're using 4096 as an arbitrary limit which you can adjust as needed)
+        int uniqueId = (int)(cell.Z * MapSize.X * MapSize.Y + cell.Y * MapSize.X + cell.X);
+        return uniqueId;
+    }
+
+
 }
