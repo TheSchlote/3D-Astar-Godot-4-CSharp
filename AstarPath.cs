@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class AstarPath : Node3D
 {
@@ -76,6 +77,131 @@ public partial class AstarPath : Node3D
         SetPathStartPosition(Vector3.Zero);
         SetPathEndPosition(Vector3.Zero);
     }
+    private void SetPathStartPosition(Vector3 value)
+    {
+        // Convert the 3D value to a cell position, assuming value is a world position
+        // If value is already a cell position, you can skip this conversion
+        Vector3 cellPosition = GridMapWorld.ToLocal(value);
+
+        // Check if the cell is non-walkable or outside the map
+        if (NonWalkableCells.Contains(cellPosition) || IsCellOutsideTheMap(cellPosition))
+        {
+            // Cannot use this cell as start position
+            return;
+        }
+
+        // Set the start position to the provided Vector3 value
+        PathStartPos = cellPosition;
+
+        // If the path end position is valid, and it's not the same as the start position
+        if (PathEndPos != Vector3.Zero && PathEndPos != PathStartPos)
+        {
+            // Calculate the A* path
+            CalculateAstarPath();
+        }
+    }
+    private void SetPathEndPosition(Vector3 value)
+    {
+        // Convert the 3D value to a cell position, assuming value is a world position
+        Vector3 cellPosition = GridMapWorld.ToLocal(value);
+
+        // Check if the cell is non-walkable or outside the map
+        if (NonWalkableCells.Contains(cellPosition) || IsCellOutsideTheMap(cellPosition))
+        {
+            // Cannot use this cell as end position
+            return;
+        }
+
+        // Set the end position to the provided Vector3 value
+        PathEndPos = cellPosition;
+    }
+
+    private void CalculateAstarPath()
+    {
+        // Calculate the start cell position unique identifier
+        var cellStartId = CalculateUniqueCellIdentifier(PathStartPos);
+        // Calculate the end cell position unique identifier
+        var cellEndId = CalculateUniqueCellIdentifier(PathEndPos);
+        // Get the path between the start and the end cell, as a List
+        PathNodeList = AStar3DPath.GetPointPath(cellStartId, cellEndId).ToList();
+    }
+
+
+    private void ConnectWalkableCells(Godot.Collections.Array walkableCells)
+    {
+        // Loop through all the walkable cells
+        foreach (Vector3 cell in walkableCells)
+        {
+            // Get the unique cell identifier for the cell
+            var cellId = CalculateUniqueCellIdentifier(cell);
+
+            // Define directions for neighboring cells: front, back, left, right
+            Vector3[] directions = {
+            new Vector3(1, 0, 0),    // Right
+            new Vector3(-1, 0, 0),   // Left
+            new Vector3(0, 0, 1),    // Front
+            new Vector3(0, 0, -1),   // Back
+        };
+
+            // Check neighboring cells in each direction
+            foreach (Vector3 direction in directions)
+            {
+                // Calculate the neighboring cell position
+                Vector3 neighborCellPos = cell + direction;
+
+                // Check if the neighboring cell is walkable and not too high or too low
+                if (IsCellWalkableAndWithinOneLevel(neighborCellPos, cell))
+                {
+                    // Get the unique identifier for the neighboring cell
+                    var neighborCellId = CalculateUniqueCellIdentifier(neighborCellPos);
+
+                    // Connect the current cell with the neighboring cell in the AStar path
+                    AStar3DPath.ConnectPoints(cellId, neighborCellId, false);
+                }
+            }
+        }
+    }
+
+    // Helper method to determine if a neighboring cell is walkable and within one level of height
+    private bool IsCellWalkableAndWithinOneLevel(Vector3 neighborCellPos, Vector3 currentCellPos)
+    {
+        // If the neighboring cell is outside the bounds of the map, it's not walkable
+        if (IsCellOutsideTheMap(neighborCellPos))
+        {
+            return false;
+        }
+
+        // Check the cell above the neighbor to ensure it's not occupied
+        if (GridMapWorld.GetCellItem(new Vector3I((int)neighborCellPos.X, (int)(neighborCellPos.Y + 1), (int)neighborCellPos.Z)) != -1)
+        {
+            return false; // There is a block above the neighboring cell, so it's not walkable
+        }
+
+        // Check the neighbor cell itself to see if it's walkable
+        bool isNeighborCellWalkable = GridMapWorld.GetCellItem(new Vector3I((int)neighborCellPos.X, (int)neighborCellPos.Y, (int)neighborCellPos.Z)) == -1;
+
+        // Check the height difference
+        bool isWithinOneLevel = Math.Abs(GridMapWorld.GetCellItem(new Vector3I((int)currentCellPos.X, (int)currentCellPos.Y, (int)currentCellPos.Z)) - GridMapWorld.GetCellItem(new Vector3I((int)neighborCellPos.X, (int)neighborCellPos.Y, (int)neighborCellPos.Z))) <= 1;
+
+        // The cell is walkable if it's within one level of the current cell and the neighbor cell is not occupied
+        return isNeighborCellWalkable && isWithinOneLevel;
+    }
+    private bool IsCellOutsideTheMap(Vector3 cell)
+    {
+        // Assume MapSize represents the size of your grid and MapOrigin represents the starting point (lowest corner)
+        Vector3 MapOrigin = new Vector3(0, 0, 0); // Adjust according to your grid's configuration
+        Vector3 MapMaxBounds = MapOrigin + MapSize;
+
+        // Check if the cell is outside the bounds
+        if (cell.X < MapOrigin.X || cell.Y < MapOrigin.Y || cell.Z < MapOrigin.Z ||
+            cell.X >= MapMaxBounds.X || cell.Y >= MapMaxBounds.Y || cell.Z >= MapMaxBounds.Z)
+        {
+            return true; // The cell is outside the map
+        }
+
+        return false; // The cell is inside the map
+    }
+
     private Godot.Collections.Array GetNonWalkableCells()
     {
         // Create an array to hold non-walkable cells

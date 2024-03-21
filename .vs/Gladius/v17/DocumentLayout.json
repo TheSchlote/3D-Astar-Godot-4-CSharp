@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:astarpath.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|T:\\Repos\\3D-Astar-Godot-4-CSharp\\Unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|t:\\repos\\3d-astar-godot-4-csharp\\gimbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:gimbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|t:\\repos\\3d-astar-godot-4-csharp\\capsulespawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:capsulespawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|t:\\repos\\3d-astar-godot-4-csharp\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Unit.cs",
               "DocumentMoniker": "T:\\Repos\\3D-Astar-Godot-4-CSharp\\Unit.cs",
               "RelativeDocumentMoniker": "Unit.cs",
@@ -38,12 +38,11 @@
               "RelativeToolTip": "Unit.cs",
               "ViewState": "AQIAAAwAAAAAAAAAAADwvxgAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-21T01:46:22.421Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-21T01:46:22.421Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Gimbal.cs",
               "DocumentMoniker": "T:\\Repos\\3D-Astar-Godot-4-CSharp\\Gimbal.cs",
               "RelativeDocumentMoniker": "Gimbal.cs",
@@ -51,8 +50,7 @@
               "RelativeToolTip": "Gimbal.cs",
               "ViewState": "AQIAAFEAAAAAAAAAAADwv1oAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-21T00:47:09.961Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-21T00:47:09.961Z"
             },
             {
               "$type": "Document",
@@ -62,14 +60,14 @@
               "RelativeDocumentMoniker": "AstarPath.cs",
               "ToolTip": "T:\\Repos\\3D-Astar-Godot-4-CSharp\\AstarPath.cs",
               "RelativeToolTip": "AstarPath.cs",
-              "ViewState": "AQIAAJEAAAAAAAAAAAAAAJcAAAAAAAAA",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAmwHUAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-18T13:17:05.585Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "CapsuleSpawner.cs",
               "DocumentMoniker": "T:\\Repos\\3D-Astar-Godot-4-CSharp\\CapsuleSpawner.cs",
               "RelativeDocumentMoniker": "CapsuleSpawner.cs",
