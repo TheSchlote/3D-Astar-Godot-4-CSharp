@@ -274,6 +274,31 @@ public partial class AstarPath : Node3D
         int uniqueId = (int)(cell.Z * MapSize.X * MapSize.Y + cell.Y * MapSize.X + cell.X);
         return uniqueId;
     }
+    public bool SetAstarPath(Vector3 startPosition, Vector3 endPosition)
+    {
+        // Check if a GridMap has been provided to the A* search
+        if (GridMapWorld == null)
+        {
+            // Write an error to the console about it
+            GD.PrintErr("AstarPathFind - GridMap is null. Make sure to call SetGridMap(GridMap) on the node that is parent to the Astar Script.");
+            return false;
+        }
+
+        // Convert the 3D start and end positions to grid coordinates
+        Vector3 startCellPosition = GridMapWorld.ToLocal(startPosition);
+        Vector3 endCellPosition = GridMapWorld.ToLocal(endPosition);
+
+        // Update the path start and end positions to the cell positions
+        this.PathStartPos = startCellPosition;
+        this.PathEndPos = endCellPosition;
+
+        // Optional: Check if the start and end positions are walkable. This requires your method to check if cells are walkable
+        // For simplicity, this step is skipped here but can be added based on your game's logic
+
+        // Calculate the A* path
+        CalculateAstarPath();
+        return true; // Assuming path calculation always succeeds, but you might add checks to ensure path exists
+    }
 
 
 }

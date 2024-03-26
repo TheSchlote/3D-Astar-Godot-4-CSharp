@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc22gx2hqvc68"]
+[gd_scene load_steps=5 format=3 uid="uid://bc22gx2hqvc68"]
+
+[ext_resource type="Script" path="res://Cube.cs" id="1_cuxw4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_msoxm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jlnu"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kskge"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Cube" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_msoxm")
+script = ExtResource("1_cuxw4")
+Material1 = SubResource("StandardMaterial3D_6jlnu")
+Material2 = SubResource("StandardMaterial3D_kskge")
