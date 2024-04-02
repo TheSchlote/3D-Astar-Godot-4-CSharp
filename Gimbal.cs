@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Linq;
+using static Godot.HttpRequest;
 
 public partial class Gimbal : Node3D
 {
@@ -36,6 +38,14 @@ public partial class Gimbal : Node3D
 
     public override void _Input(InputEvent @event)
     {
+        // Check for mouse click events
+        if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.Pressed)
+        {
+            if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.ButtonIndex == MouseButton.Left && eventMouseButton.Pressed)
+            {
+                RayCastFromCamera(mouseButtonEvent.Position);
+            }
+        }
         if (Input.IsActionPressed("rotate_cam") && @event is InputEventMouseMotion mouseMotion)
         {
             if (mouseMotion.Relative.X != 0)
@@ -67,6 +77,57 @@ public partial class Gimbal : Node3D
 
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
     }
+    private void RayCastFromCamera(Vector2 mousePosition)
+    {
+        GD.Print("Raycasting from camera..."); // Debug print
+        Camera3D camera = GetNode<Camera3D>("InnerGimbal/Camera3D");
+        Vector3 from = camera.ProjectRayOrigin(mousePosition);
+        Vector3 to = from + camera.ProjectRayNormal(mousePosition) * 1000;
+        var queryParameters = new PhysicsRayQueryParameters3D
+        {
+            From = from,
+            To = to,
+            CollisionMask = 1
+        };
+        var spaceState = GetWorld3D().DirectSpaceState;
+        var result = spaceState.IntersectRay(queryParameters);
+        GD.Print("Ray from: ", from);
+        GD.Print("Ray to: ", to);
+
+        if (result.Count > 0)
+        {
+            GD.Print("Ray hit something"); // Debug print
+
+            if (result["collider"] is Object colliderObj)
+            {
+                GD.Print("Collider is an object"); // Debug print
+
+                if (colliderObj is GridMap gridMap)
+                {
+                    GD.Print("Collider is a GridMap"); // Debug print
+                    Vector3 hitPosition = (Vector3)result["position"];
+                    Vector3 cell = gridMap.LocalToMap(hitPosition);
+                    GD.Print($"Hit at cell: {cell}"); // Debug print
+                    GD.Print("Ray hit: ", result["collider"]);
+                    GD.Print("Hit position: ", hitPosition);
+                    GD.Print("Grid cell: ", cell);
+
+                    var astarPath = GetNode<AstarPath>("/root/Main/AstarPath"); // Adjust the node path as necessary
+                    GD.Print("astarPath is " + astarPath);
+                    if (astarPath != null)
+                    {
+                        astarPath.UpdatePath(cell);
+                    }
+                }
+            }
+        }
+        else
+        {
+            GD.Print("Ray did not hit anything"); // Debug print
+        }
+    }
+
+
     public static float Lerp(float First, float Second, float Amount)
     {
         return First * (1 - Amount) + Second * Amount;

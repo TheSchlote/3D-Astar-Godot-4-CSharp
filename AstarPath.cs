@@ -276,6 +276,10 @@ public partial class AstarPath : Node3D
     }
     public bool SetAstarPath(Vector3 startPosition, Vector3 endPosition)
     {
+        GD.Print("Path from: ", startPosition);
+        GD.Print("Path to: ", endPosition);
+        GD.Print("Path calculated: ", PathNodeList.Count);
+
         // Check if a GridMap has been provided to the A* search
         if (GridMapWorld == null)
         {
@@ -300,5 +304,42 @@ public partial class AstarPath : Node3D
         return true; // Assuming path calculation always succeeds, but you might add checks to ensure path exists
     }
 
+    public void UpdatePath(Vector3 gridPosition)
+    {
+        GD.Print($"Updating path to grid position: {gridPosition}"); // Debug print
 
+        var player = GetNode<Player>("/root/Main/Character");
+        if (player != null)
+        {
+            Vector3 playerPosition = player.GlobalTransform.Origin;
+            GD.Print($"Player's current position: {playerPosition}"); // Debug print
+
+            SetPathStartPosition(playerPosition);
+            SetPathEndPosition(gridPosition);
+
+            CalculateAstarPath();
+            HighlightPath();
+        }
+        else
+        {
+            GD.Print("Player node not found"); // Debug print
+        }
+    }
+    public void HighlightPath()
+    {
+        GD.Print("Highlighting path..."); // Debug print
+        // First, clear the previous highlights
+        foreach (Vector3I cell in GridMapWorld.GetUsedCells())
+        {
+            Cube cubeInstance = GridMapWorld.GetNodeOrNull<Cube>("Cell_" + cell.ToString());
+            cubeInstance?.SetAsPath(false);
+        }
+
+        // Now highlight the new path
+        foreach (Vector3 node in PathNodeList)
+        {
+            Cube cubeInstance = GridMapWorld.GetNodeOrNull<Cube>("Cell_" + node.ToString());
+            cubeInstance?.SetAsPath(true);
+        }
+    }
 }
