@@ -4,7 +4,7 @@
 [ext_resource type="MeshLibrary" uid="uid://dho4rwmsm26mg" path="res://Tiles.tres" id="2_wlrh8"]
 [ext_resource type="PackedScene" uid="uid://0gfxfe31xv1q" path="res://Gimbal.tscn" id="3_6ult8"]
 
-[node name="Main" type="Node3D"]
+[node name="BattleArea" type="Node3D"]
 
 [node name="Gimbal" parent="." instance=ExtResource("3_6ult8")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20, 0, 0)
