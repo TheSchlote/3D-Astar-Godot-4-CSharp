@@ -9,16 +9,13 @@
 [node name="Cubes" type="Node3D"]
 
 [node name="WalkableTile" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("BoxMesh_jogmx")
 surface_material_override/0 = ExtResource("1_8kh4c")
 
 [node name="NonWalkableTile" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2, 0, 0)
 mesh = SubResource("BoxMesh_jogmx")
 surface_material_override/0 = ExtResource("2_vffne")
 
 [node name="WalkableHighlightedTile" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 0)
 mesh = SubResource("BoxMesh_jogmx")
 surface_material_override/0 = ExtResource("3_3hofw")
