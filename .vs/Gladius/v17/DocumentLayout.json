@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:QTE.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\qte\\qtemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:qte\\qtemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\simpleastarpathfinding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:simpleastarpathfinding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\qte\\timedpowerbar\\timedpowerbarqte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:qte\\timedpowerbar\\timedpowerbarqte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\gimbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:gimbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\qte\\keypress\\keypressqte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:qte\\keypress\\keypressqte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\qte\\qte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:qte\\qte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +34,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "QTE.cs",
-              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE.cs",
-              "RelativeDocumentMoniker": "QTE.cs",
-              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE.cs",
-              "RelativeToolTip": "QTE.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-06T18:09:11.767Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SimpleAStarPathfinding.cs",
-              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\SimpleAStarPathfinding.cs",
-              "RelativeDocumentMoniker": "SimpleAStarPathfinding.cs",
-              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\SimpleAStarPathfinding.cs",
-              "RelativeToolTip": "SimpleAStarPathfinding.cs",
-              "ViewState": "AQIAAGEAAAAAAAAAAADwv3UAAAA9AAAA",
+              "Title": "TimedPowerBarQTE.cs",
+              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\TimedPowerBar\\TimedPowerBarQTE.cs",
+              "RelativeDocumentMoniker": "QTE\\TimedPowerBar\\TimedPowerBarQTE.cs",
+              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\TimedPowerBar\\TimedPowerBarQTE.cs",
+              "RelativeToolTip": "QTE\\TimedPowerBar\\TimedPowerBarQTE.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAkwAkAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-03T00:12:19.253Z",
+              "WhenOpened": "2024-04-07T19:44:04.279Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Gimbal.cs",
-              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Gimbal.cs",
-              "RelativeDocumentMoniker": "Gimbal.cs",
-              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Gimbal.cs",
-              "RelativeToolTip": "Gimbal.cs",
-              "ViewState": "AQIAACAAAAAAAAAAAAA2wCcAAAAFAAAA",
+              "Title": "KeyPressQTE.cs",
+              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\KeyPress\\KeyPressQTE.cs",
+              "RelativeDocumentMoniker": "QTE\\KeyPress\\KeyPressQTE.cs",
+              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\KeyPress\\KeyPressQTE.cs",
+              "RelativeToolTip": "QTE\\KeyPress\\KeyPressQTE.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-21T00:47:09.961Z"
+              "WhenOpened": "2024-04-07T19:42:46.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QTEManager.cs",
+              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\QTEManager.cs",
+              "RelativeDocumentMoniker": "QTE\\QTEManager.cs",
+              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\QTEManager.cs",
+              "RelativeToolTip": "QTE\\QTEManager.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAAwCQAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-07T19:31:40.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QTE.cs",
+              "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\QTE.cs",
+              "RelativeDocumentMoniker": "QTE\\QTE.cs",
+              "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\QTE\\QTE.cs",
+              "RelativeToolTip": "QTE\\QTE.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-07T19:30:10.675Z",
+              "EditorCaption": ""
             }
           ]
         }

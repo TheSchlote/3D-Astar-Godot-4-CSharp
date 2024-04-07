@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://0gfxfe31xv1q"]
 
-[ext_resource type="Script" path="res://Gimbal.cs" id="1_m3axf"]
+[ext_resource type="Script" path="res://Camera/Gimbal.cs" id="1_m3axf"]
 
 [node name="Gimbal" type="Node3D"]
 script = ExtResource("1_m3axf")

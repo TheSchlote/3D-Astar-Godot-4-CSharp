@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://b1d7ejumwafi"]
 
-[ext_resource type="Material" uid="uid://b60r4ut32x68t" path="res://Standard.tres" id="1_8kh4c"]
-[ext_resource type="Material" uid="uid://3p2ivtbpml03" path="res://Black.tres" id="2_vffne"]
-[ext_resource type="Material" uid="uid://do3sqrvjjfjfr" path="res://Highlight.tres" id="3_3hofw"]
+[ext_resource type="Material" uid="uid://b60r4ut32x68t" path="res://BattleArena/Tiles/Standard.tres" id="1_8kh4c"]
+[ext_resource type="Material" uid="uid://3p2ivtbpml03" path="res://BattleArena/Tiles/Black.tres" id="2_vffne"]
+[ext_resource type="Material" uid="uid://do3sqrvjjfjfr" path="res://BattleArena/Tiles/Highlight.tres" id="3_3hofw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_jogmx"]
 
