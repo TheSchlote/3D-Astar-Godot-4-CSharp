@@ -19,7 +19,7 @@ public partial class QTEManager : Control
     public override void _Ready()
     {
         //This is for testing, eventually this gets called when an attack is selected
-        StartQTE(QTEType.Sequence);
+        //StartQTE(QTEType.Sequence);
     }
 
     public void StartQTE(QTEType type)

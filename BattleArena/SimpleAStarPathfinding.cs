@@ -14,12 +14,15 @@ public partial class SimpleAStarPathfinding : GridMap
     private const string WalkableTileName = "WalkableTile";
     private const string WalkableHighlightedTileName = "WalkableHighlightedTile";
     private const string NonWalkableTileName = "NonWalkableTile";
-    public override void _Ready()
+
+    // Call this method whenever you need to update the path, for example, when a unit moves.
+    public void UpdatePath(Vector3I newStart, Vector3I newEnd)
     {
-        InitializeAStar();
+        InitializeAStar(); //To get the latest Grid
+        startPosition = newStart;
+        endPosition = newEnd;
         FindPath();
         HighlightPath();
-        SpawnCapsules();
     }
 
     private void InitializeAStar()
@@ -101,7 +104,6 @@ public partial class SimpleAStarPathfinding : GridMap
 
         List<Vector3> fullPath = new List<Vector3>(aStar.GetPointPath(startId, endId));
 
-        // Optionally, remove the start and end positions from the fullPath if they are not to be walkable
         path.Clear();
         foreach (Vector3 pos in fullPath)
         {
@@ -118,19 +120,7 @@ public partial class SimpleAStarPathfinding : GridMap
                 SetCellItem(gridPosition, nonWalkableTileId);
             }
         }
-
-
     }
-
-    // Call this method whenever you need to update the path, for example, when a unit moves.
-    public void UpdatePath(Vector3I newStart, Vector3I newEnd)
-    {
-        startPosition = newStart;
-        endPosition = newEnd;
-        FindPath();
-        HighlightPath();
-    }
-
 
     private void HighlightPath()
     {
@@ -141,20 +131,6 @@ public partial class SimpleAStarPathfinding : GridMap
             Vector3I gridPosition = LocalToMap(localPosition);
             SetCellItem(gridPosition, highlightedTileId);
         }
-    }
-
-    private void SpawnCapsules()
-    {
-        SpawnCapsule(startPosition, Colors.Green);
-        SpawnCapsule(endPosition, Colors.Red);
-    }
-
-    private void SpawnCapsule(Vector3I gridPosition, Color color)
-    {
-        Vector3 localPosition = MapToLocal(gridPosition);
-        Vector3 worldPosition = GlobalTransform.Origin + localPosition;
-        var capsule = CreateCapsuleMeshInstance(color, worldPosition);
-        AddChild(capsule);
     }
 
     private int GetCellIdFromPosition(Vector3I position)

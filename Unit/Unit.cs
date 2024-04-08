@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Unit : Node3D
 {
@@ -9,52 +8,51 @@ public partial class Unit : Node3D
     public int AttackValue { get; private set; } = 20;
     [Export]
     public int Defense { get; private set; } = 10;
+    [Export]
+    public int Movement { get; private set; } = 3;
 
-    // Reference to the pathfinding and QTE system
     private SimpleAStarPathfinding pathfindingSystem;
     private QTEManager qteManager;
 
-    // Additional properties to control the flow of the turn
     private bool hasMoved;
     private bool hasAttacked;
 
-    // Events for the BattleSystem
     [Signal]
-    public delegate void TurnEnded(Unit unit);
+    public delegate void TurnEndedEventHandler();
 
     public override void _Ready()
     {
-        // Initialize your pathfinding and QTE system here
-        // Assuming that the QTEManager and pathfinding system are siblings of this unit in the scene tree:
-        qteManager = GetParent().GetNode<QTEManager>("QTEManager");
-        pathfindingSystem = GetParent().GetNode<SimpleAStarPathfinding>("SimpleAStarPathfinding");
+        qteManager = GetParent().GetParent().GetNode<QTEManager>("QTEManager");
+        pathfindingSystem = GetParent().GetParent().GetNode<SimpleAStarPathfinding>("GridMap");
         hasMoved = false;
         hasAttacked = false;
 
-        var uiPanel = GetNode<UIPanel>("/root/MainScene/UIPanel"); // Adjust the path to match your project structure
-        uiPanel.Connect("ActionSelected", this, nameof(OnUIActionSelected));
+        var uiPanel = GetNode<UIPanel>("/root/BattleArea/CanvasLayer/UIPanel");
+        uiPanel.Connect(UIPanel.SignalName.ActionSelected, new Callable(this, MethodName.OnUIActionSelected));
     }
 
     private void OnUIActionSelected(string action)
     {
-        if (action == "move")
+        switch (action)
         {
-            // Handle move logic
-        }
-        else if (action == "attack")
-        {
-            // Handle attack logic
-        }
-        else if (action == "end_turn")
-        {
-            EndTurn();
+            case "move":
+                GD.Print("Moving");
+                
+                break;
+            case "attack":
+                GD.Print("Attacking");
+                break;
+            case "end_turn":
+                EndTurn();
+                break;
+            default:
+                break;
         }
     }
 
     public void StartTurn()
     {
         GD.Print("Unit's turn started.");
-        // Reset turn properties
         hasMoved = false;
         hasAttacked = false;
         // TODO: Show UI options for Move, Attack, End Turn, etc.
@@ -67,9 +65,6 @@ public partial class Unit : Node3D
             GD.Print("This unit has already moved this turn.");
             return;
         }
-        // Call into the pathfinding system to move to the target
-        // This would be more complex in practice and would involve pathfinding and unit movement logic.
-        // For example:
         pathfindingSystem.UpdatePath((Vector3I)GlobalTransform.Origin, (Vector3I)target);
         // ... animate movement here ...
         hasMoved = true;
