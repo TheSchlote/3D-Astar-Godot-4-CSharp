@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:camera\\gimbal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\unit\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:unit\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\battlearena\\battlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:battlearena\\battlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\battlearena\\simpleastarpathfinding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:battlearena\\simpleastarpathfinding.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\unit\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:unit\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\unit\\qte\\qtemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\unit\\qte\\qte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:unit\\qte\\qte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\battlearena\\battlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|solutionrelative:battlearena\\battlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F8C7132-CA57-457A-A833-6C7366471BC6}|Gladius.csproj|c:\\users\\thesc\\source\\repos\\3d-astar-godot-4-csharp\\uipanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -52,14 +52,14 @@
               "RelativeDocumentMoniker": "Camera\\Gimbal.cs",
               "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Camera\\Gimbal.cs",
               "RelativeToolTip": "Camera\\Gimbal.cs",
-              "ViewState": "AQIAAFwAAAAAAAAAAADwv4AAAAAAAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAAACoAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-08T03:59:22.996Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "QTEManager.cs",
               "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Unit\\QTE\\QTEManager.cs",
               "RelativeDocumentMoniker": "Unit\\QTE\\QTEManager.cs",
@@ -67,12 +67,11 @@
               "RelativeToolTip": "Unit\\QTE\\QTEManager.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-08T03:36:09.046Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-08T03:36:09.046Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "QTE.cs",
               "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Unit\\QTE\\QTE.cs",
               "RelativeDocumentMoniker": "Unit\\QTE\\QTE.cs",
@@ -80,8 +79,7 @@
               "RelativeToolTip": "Unit\\QTE\\QTE.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-08T03:36:02.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-08T03:36:02.08Z"
             },
             {
               "$type": "Document",
@@ -93,34 +91,31 @@
               "RelativeToolTip": "UIPanel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-08T01:58:17.552Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-08T01:58:17.552Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "BattleSystem.cs",
               "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\BattleArena\\BattleSystem.cs",
               "RelativeDocumentMoniker": "BattleArena\\BattleSystem.cs",
               "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\BattleArena\\BattleSystem.cs",
               "RelativeToolTip": "BattleArena\\BattleSystem.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAiAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABwAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-07T21:30:32.972Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-07T21:30:32.972Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Unit.cs",
               "DocumentMoniker": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Unit\\Unit.cs",
               "RelativeDocumentMoniker": "Unit\\Unit.cs",
               "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\Unit\\Unit.cs",
               "RelativeToolTip": "Unit\\Unit.cs",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAmwH0AAAAAAAAA",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAgwBEAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-07T21:28:42.143Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-07T21:28:42.143Z"
             },
             {
               "$type": "Document",
@@ -130,10 +125,9 @@
               "RelativeDocumentMoniker": "BattleArena\\SimpleAStarPathfinding.cs",
               "ToolTip": "C:\\Users\\TheSc\\source\\repos\\3D-Astar-Godot-4-CSharp\\BattleArena\\SimpleAStarPathfinding.cs",
               "RelativeToolTip": "BattleArena\\SimpleAStarPathfinding.cs",
-              "ViewState": "AQIAAI8AAAAAAAAAAAAmwLEAAAABAAAA",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwCoAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-07T21:09:42.033Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-07T21:09:42.033Z"
             }
           ]
         }

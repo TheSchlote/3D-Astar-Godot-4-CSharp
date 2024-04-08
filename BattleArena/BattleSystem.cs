@@ -11,15 +11,23 @@ public enum BattleState
 }
 public partial class BattleSystem : Node3D
 {
-
+    [Export]
     public BattleState State { get; private set; }
 
     private List<Unit> playerUnits;
     private List<Unit> enemyUnits;
     private int currentPlayerUnitIndex;
-
+    private SimpleAStarPathfinding pathfindingSystem;
     public override void _Ready()
     {
+
+        //pathfindingSystem = GetNode<SimpleAStarPathfinding>("GridMap");
+        //foreach (Unit unit in playerUnits)
+        //{
+        //    Vector3I spawnCell = pathfindingSystem.FindWalkableCell();
+        //    //pathfindingSystem.SpawnUnit(unit, spawnCell);
+        //}
+
         //playerUnits = new List<Unit>(GetTree().GetNodesInGroup("PlayerUnits"));
         //enemyUnits = new List<Unit>(GetTree().GetNodesInGroup("EnemyUnits"));
         State = BattleState.Start;

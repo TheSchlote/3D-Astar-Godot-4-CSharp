@@ -24,6 +24,27 @@ public partial class SimpleAStarPathfinding : GridMap
         FindPath();
         HighlightPath();
     }
+    public Vector3I FindWalkableCell()
+    {
+        foreach (Vector3I cell in GetUsedCells())
+        {
+            if (IsWalkableCell(cell))
+            {
+                return cell;
+            }
+        }
+        GD.PrintErr("No walkable cell found.");
+        return new Vector3I(); // Return an invalid position
+    }
+
+    public void SpawnUnit(PackedScene unitPrefab, Vector3I cellPosition)
+    {
+        Vector3 worldPosition = MapToLocal(cellPosition) + new Vector3(0, 1f, 0); // Adjust Y to half the unit's height if needed
+        Unit unitInstance = unitPrefab.Instantiate() as Unit;
+        unitInstance.GlobalTransform = new Transform3D(Basis.Identity, worldPosition);
+        AddChild(unitInstance);
+        SetCellItem(cellPosition, GetMeshLibraryItemIdByName(NonWalkableTileName));
+    }
 
     private void InitializeAStar()
     {

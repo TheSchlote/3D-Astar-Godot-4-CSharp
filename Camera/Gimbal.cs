@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using System.Linq;
-using static Godot.HttpRequest;
 
 public partial class Gimbal : Node3D
 {
@@ -28,6 +26,37 @@ public partial class Gimbal : Node3D
 
 	Vector3 move;
 
+    private void HandleTileSelection()
+    {
+        if (Input.IsActionJustPressed("ui_select"))
+        {
+
+            // Perform a raycast from the camera to the mouse position
+            Vector3 rayOrigin = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
+            Vector3 rayEnd = rayOrigin + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
+
+            PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+            PhysicsRayQueryParameters3D queryParameters3D = new PhysicsRayQueryParameters3D
+            {
+                From = rayOrigin,
+                To = rayEnd,
+                CollisionMask = 1
+            };
+            var result = spaceState.IntersectRay(queryParameters3D);
+            GD.Print(result);
+            if (result.Count > 0 && result.ContainsKey("position"))
+            {
+                Vector3 hitPosition = (Vector3)result["position"];
+                GD.Print(hitPosition);
+
+                //// Convert world position to GridMap coordinates
+                //Vector3I selectedCell = pathfindingSystem.WorldToMap(hitPosition);
+                //// Now you can highlight the tile, show UI for actions, etc.
+                //// For example, if it's the player's turn, you might call:
+                //pathfindingSystem.HighlightPathTo(selectedCell);
+            }
+        }
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,6 +67,7 @@ public partial class Gimbal : Node3D
 
     public override void _Input(InputEvent @event)
     {
+        HandleTileSelection();
         if (Input.IsActionPressed("rotate_cam") && @event is InputEventMouseMotion mouseMotion)
         {
             if (mouseMotion.Relative.X != 0)
