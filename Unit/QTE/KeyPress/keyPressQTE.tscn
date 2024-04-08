@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dflk7rsnc3e82"]
 
-[ext_resource type="Script" path="res://QTE/KeyPress/KeyPressQTE.cs" id="1_2iii7"]
+[ext_resource type="Script" path="res://Unit/QTE/KeyPress/KeyPressQTE.cs" id="1_2iii7"]
 
 [node name="ControlKeyPress" type="Control"]
 layout_mode = 3

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmechhxt55og7"]
 
-[ext_resource type="Script" path="res://QTE/TimedPowerBar/TimedPowerBarQTE.cs" id="1_f1y0k"]
+[ext_resource type="Script" path="res://Unit/QTE/TimedPowerBar/TimedPowerBarQTE.cs" id="1_f1y0k"]
 
 [node name="ControlTimedPowerBar" type="Control"]
 layout_mode = 3

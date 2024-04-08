@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://b81nktvn710ro"]
+
+[ext_resource type="Script" path="res://Unit/QTE/QTEManager.cs" id="1_1b8t3"]
+[ext_resource type="PackedScene" uid="uid://dflk7rsnc3e82" path="res://Unit/QTE/KeyPress/keyPressQTE.tscn" id="2_7m068"]
+[ext_resource type="PackedScene" uid="uid://bmechhxt55og7" path="res://Unit/QTE/TimedPowerBar/timedPowerBarQTE.tscn" id="3_wlfoo"]
+[ext_resource type="PackedScene" uid="uid://cstd0qpohoxcd" path="res://Unit/QTE/Sequence/sequence.tscn" id="4_85ux1"]
+
+[node name="QTEManager" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1b8t3")
+keyPressQTEScene = ExtResource("2_7m068")
+timedPowerBarQTEScene = ExtResource("3_wlfoo")
+sequenceQTEScene = ExtResource("4_85ux1")

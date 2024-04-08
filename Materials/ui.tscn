@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmx3h3bpis7l4"]
+
+[ext_resource type="Script" path="res://UIPanel.cs" id="1_e6q7u"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="UIPanel" type="Panel" parent="."]
+offset_right = 350.0
+offset_bottom = 233.0
+script = ExtResource("1_e6q7u")
+
+[node name="MoveButton" type="Button" parent="UIPanel"]
+layout_mode = 0
+offset_left = 262.0
+offset_top = 70.0
+offset_right = 352.0
+offset_bottom = 113.0
+text = "Move"
+
+[node name="AttackButton" type="Button" parent="UIPanel"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 122.0
+offset_right = 350.0
+offset_bottom = 165.0
+text = "Attack"
+
+[node name="EndTurnButton" type="Button" parent="UIPanel"]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 180.0
+offset_right = 350.0
+offset_bottom = 223.0
+text = "End Turn"
