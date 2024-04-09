@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsjtmso1qelp8"]
+[gd_scene load_steps=10 format=3 uid="uid://bsjtmso1qelp8"]
 
 [ext_resource type="Script" path="res://BattleArena/BattleSystem.cs" id="1_3qddu"]
 [ext_resource type="PackedScene" uid="uid://0gfxfe31xv1q" path="res://Camera/Gimbal.tscn" id="1_dn6od"]
@@ -7,9 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://b81nktvn710ro" path="res://Unit/QTE/QTE.tscn" id="2_q3gto"]
 [ext_resource type="Script" path="res://BattleArena/SimpleAStarPathfinding.cs" id="3_p5oft"]
 [ext_resource type="PackedScene" uid="uid://bix01vdtyedjd" path="res://Unit/unit.tscn" id="6_xlyst"]
+[ext_resource type="Script" path="res://BattleArena/GridCursor.cs" id="8_ditqt"]
+[ext_resource type="Script" path="res://BattleArena/PlayerController.cs" id="9_4n3xb"]
 
-[node name="BattleArea" type="Node3D"]
+[node name="BattleArea" type="Node3D" node_paths=PackedStringArray("pathfindingSystem")]
 script = ExtResource("1_3qddu")
+unitPrefab = ExtResource("6_xlyst")
+pathfindingSystem = NodePath("GridMap")
 
 [node name="QTEManager" parent="." instance=ExtResource("2_q3gto")]
 
@@ -29,8 +33,9 @@ startPosition = Vector3i(2, 0, 2)
 endPosition = Vector3i(12, 3, 12)
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
-[node name="PlayerTeam" type="Node3D" parent="."]
+[node name="GridCursor" type="Node3D" parent="." node_paths=PackedStringArray("pathfindingSystem")]
+script = ExtResource("8_ditqt")
+pathfindingSystem = NodePath("../GridMap")
 
-[node name="Unit" parent="PlayerTeam" instance=ExtResource("6_xlyst")]
-
-[node name="EnemyTeam" type="Node3D" parent="."]
+[node name="PlayerController" type="Node3D" parent="."]
+script = ExtResource("9_4n3xb")

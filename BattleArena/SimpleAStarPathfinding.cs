@@ -15,15 +15,27 @@ public partial class SimpleAStarPathfinding : GridMap
     private const string WalkableHighlightedTileName = "WalkableHighlightedTile";
     private const string NonWalkableTileName = "NonWalkableTile";
 
+    public override void _Ready()
+    {
+        InitializeAStar();
+    }
+
     // Call this method whenever you need to update the path, for example, when a unit moves.
     public void UpdatePath(Vector3I newStart, Vector3I newEnd)
     {
-        InitializeAStar(); //To get the latest Grid
+        // Make sure the start and end points exist in the AStar map before attempting to find a path
+        if (!aStar.HasPoint(GetCellIdFromPosition(newStart)) || !aStar.HasPoint(GetCellIdFromPosition(newEnd)))
+        {
+            GD.PrintErr("AStar3D cannot find path because a point is missing:", newStart, newEnd);
+            return;
+        }
+        InitializeAStar();
         startPosition = newStart;
         endPosition = newEnd;
         FindPath();
         HighlightPath();
     }
+
     public Vector3I FindWalkableCell()
     {
         foreach (Vector3I cell in GetUsedCells())
@@ -37,13 +49,14 @@ public partial class SimpleAStarPathfinding : GridMap
         return new Vector3I(); // Return an invalid position
     }
 
-    public void SpawnUnit(PackedScene unitPrefab, Vector3I cellPosition)
+    public Unit SpawnUnit(PackedScene unitPrefab, Vector3I cellPosition)
     {
         Vector3 worldPosition = MapToLocal(cellPosition) + new Vector3(0, 1f, 0); // Adjust Y to half the unit's height if needed
-        Unit unitInstance = unitPrefab.Instantiate() as Unit;
+        Unit unitInstance = unitPrefab.Instantiate<Unit>();
         unitInstance.GlobalTransform = new Transform3D(Basis.Identity, worldPosition);
         AddChild(unitInstance);
         SetCellItem(cellPosition, GetMeshLibraryItemIdByName(NonWalkableTileName));
+        return unitInstance; // Make sure to return the instance
     }
 
     private void InitializeAStar()
@@ -64,6 +77,7 @@ public partial class SimpleAStarPathfinding : GridMap
         Vector3 localPosition = MapToLocal(cell);
         Vector3 worldPosition = GlobalTransform.Origin + localPosition;
         aStar.AddPoint(cellId, worldPosition, 1);
+        GD.Print("Added point with ID:", cellId, " at position ", worldPosition);
     }
 
     private bool IsWalkableCell(Vector3I cell)
@@ -120,6 +134,11 @@ public partial class SimpleAStarPathfinding : GridMap
 
     private void FindPath()
     {
+        if (!aStar.HasPoint(GetCellIdFromPosition(startPosition)) || !aStar.HasPoint(GetCellIdFromPosition(endPosition)))
+        {
+            GD.PrintErr("Start or end point does not exist in AStar map.");
+            return;
+        }
         int startId = GetCellIdFromPosition(startPosition);
         int endId = GetCellIdFromPosition(endPosition);
 
@@ -166,22 +185,6 @@ public partial class SimpleAStarPathfinding : GridMap
         int y = (cellId / 1000) % 1000;
         int z = cellId / 1000000;
         return new Vector3I(x, y, z);
-    }
-
-    private Vector3 ConvertGridToWorldPosition(Vector3I gridPosition)
-    {
-        return MapToLocal(gridPosition) + new Vector3(CellSize.X / 2, CellSize.Y, CellSize.Z / 2);
-    }
-    private MeshInstance3D CreateCapsuleMeshInstance(Color color, Vector3 worldPosition)
-    {
-        MeshInstance3D meshInstance = new MeshInstance3D();
-        CapsuleMesh capsuleMesh = new CapsuleMesh();
-        meshInstance.Mesh = capsuleMesh;
-        StandardMaterial3D matColor = new StandardMaterial3D() { AlbedoColor = color };
-        meshInstance.SetSurfaceOverrideMaterial(0, matColor);
-        worldPosition = worldPosition + new Vector3I(0, 1, 0);//adjust visual to stand on tile
-        meshInstance.GlobalTransform = new Transform3D(Basis.Identity, worldPosition);
-        return meshInstance;
     }
 
     private int GetMeshLibraryItemIdByName(string name)
