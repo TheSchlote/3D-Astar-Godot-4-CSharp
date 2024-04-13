@@ -17,9 +17,6 @@ public partial class SimpleAStarPathfinding : GridMap
     public override void _Ready()
     {
         InitializeAStar();
-        FindPath();
-        HighlightPath();
-        SpawnCapsules();
     }
 
     private void InitializeAStar()
@@ -118,13 +115,12 @@ public partial class SimpleAStarPathfinding : GridMap
                 SetCellItem(gridPosition, nonWalkableTileId);
             }
         }
-
-
     }
 
     // Call this method whenever you need to update the path, for example, when a unit moves.
     public void UpdatePath(Vector3I newStart, Vector3I newEnd)
     {
+        InitializeAStar();
         startPosition = newStart;
         endPosition = newEnd;
         FindPath();
@@ -171,10 +167,6 @@ public partial class SimpleAStarPathfinding : GridMap
         return new Vector3I(x, y, z);
     }
 
-    private Vector3 ConvertGridToWorldPosition(Vector3I gridPosition)
-    {
-        return MapToLocal(gridPosition) + new Vector3(CellSize.X / 2, CellSize.Y, CellSize.Z / 2);
-    }
     private MeshInstance3D CreateCapsuleMeshInstance(Color color, Vector3 worldPosition)
     {
         MeshInstance3D meshInstance = new MeshInstance3D();

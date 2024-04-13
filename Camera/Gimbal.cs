@@ -1,42 +1,80 @@
 using Godot;
-using System;
-using System.Linq;
-using static Godot.HttpRequest;
 
 public partial class Gimbal : Node3D
 {
-	public Node3D InnerGimbal;
-	public Camera3D Camera;
+    [Export]
+    public SimpleAStarPathfinding BattleArena;
+    public Node3D InnerGimbal;
+    public Camera3D Camera;
 
-	[Export]
-	float maxZoom = 3.0f;
+    [Export]
+    float maxZoom = 3.0f;
     [Export]
     float minZoom = 0.5f;
     [Export]
     float zoomSpeed = 0.08f;
 
-	float zoom = 1.5f;
+    float zoom = 1.5f;
 
-	[Export]
-	float speed = 0.3f;
-	[Export]
-	float dragSpeed = 0.005f;
-	[Export]
-	float acceleration = 0.08f;
-	[Export]
-	float mouseSensitivity = 0.005f;
+    [Export]
+    float speed = 0.3f;
+    [Export]
+    float dragSpeed = 0.005f;
+    [Export]
+    float acceleration = 0.08f;
+    [Export]
+    float mouseSensitivity = 0.005f;
 
-	Vector3 move;
+    Vector3 move;
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-	{
+    {
         Camera = GetNode<Camera3D>("InnerGimbal/Camera3D");
         InnerGimbal = GetNode<Node3D>("InnerGimbal");
     }
 
     public override void _Input(InputEvent @event)
+    {
+        HandleCameraMovement(@event);
+        if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left)
+        {
+            Vector2 mousePosition = GetViewport().GetMousePosition();
+            Vector3 from = Camera.ProjectRayOrigin(mousePosition);
+            Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000; // Ray length of 1000 units
+            PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+            PhysicsRayQueryParameters3D queryParameters = new PhysicsRayQueryParameters3D
+            {
+                From = from,
+                To = to
+            };
+            Godot.Collections.Dictionary result = spaceState.IntersectRay(queryParameters);
+
+            if (result.ContainsKey("collider"))
+            {
+                var collider = result["collider"];
+                if (collider.Obj is GridMap gridMap)
+                {
+                    Vector3 hitPosition = (Vector3)result["position"];
+                    Vector3 localHitPosition = gridMap.ToLocal(hitPosition);
+                    Vector3I gridPosition = GetStableGridPosition(localHitPosition);
+
+                    GD.Print("Hit Position: ", hitPosition, " Local Hit Position: ", localHitPosition, " Grid Position: ", gridPosition);
+                    BattleArena.UpdatePath(BattleArena.startPosition, gridPosition);
+                }
+            }
+        }
+    }
+    private Vector3I GetStableGridPosition(Vector3 localHitPosition)
+    {
+        // Adjust each coordinate to the nearest grid center
+        int x = Mathf.RoundToInt(localHitPosition.X - BattleArena.CellScale/2);
+        int y = Mathf.RoundToInt(localHitPosition.Y - BattleArena.CellScale / 2);
+        int z = Mathf.RoundToInt(localHitPosition.Z - BattleArena.CellScale / 2);
+        return new Vector3I(x, y, z);
+    }
+    private void HandleCameraMovement(InputEvent @event)
     {
         if (Input.IsActionPressed("rotate_cam") && @event is InputEventMouseMotion mouseMotion)
         {
@@ -70,7 +108,6 @@ public partial class Gimbal : Node3D
         zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
     }
 
-
     public static float Lerp(float First, float Second, float Amount)
     {
         return First * (1 - Amount) + Second * Amount;
@@ -83,7 +120,7 @@ public partial class Gimbal : Node3D
         return new Vector3(retX, retY, retZ);
     }
     public override void _Process(double delta)
-	{
+    {
         Scale = Lerp(Scale, Vector3.One * zoom, zoomSpeed);
         InnerGimbal.Rotation = new Vector3(Mathf.Clamp(InnerGimbal.Rotation.X, -1.1f, 0.3f), InnerGimbal.Rotation.Y, InnerGimbal.Rotation.Z);
         MoveCam(delta);
@@ -122,7 +159,6 @@ public partial class Gimbal : Node3D
         // Apply movement
         Position += move.Rotated(Vector3.Up, Rotation.Y) * zoom;
         // Clamp position to prevent moving out of bounds
-        Position = new Vector3(Mathf.Clamp(Position.X, -20, 20), Position.Y, Mathf.Clamp(Position.Z, -20, 20));
+        Position = new Vector3(Mathf.Clamp(Position.X, 0, 25), Position.Y, Mathf.Clamp(Position.Z, 0, 25));
     }
-
 }

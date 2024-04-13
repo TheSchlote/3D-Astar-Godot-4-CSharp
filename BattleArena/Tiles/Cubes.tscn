@@ -1,21 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1d7ejumwafi"]
+[gd_scene load_steps=4 format=3 uid="uid://b1d7ejumwafi"]
 
-[ext_resource type="Material" uid="uid://b60r4ut32x68t" path="res://BattleArena/Tiles/Standard.tres" id="1_8kh4c"]
+[ext_resource type="PackedScene" uid="uid://c6avm4prpwsum" path="res://BattleArena/Tiles/Tile.tscn" id="1_a7o6n"]
 [ext_resource type="Material" uid="uid://3p2ivtbpml03" path="res://BattleArena/Tiles/Black.tres" id="2_vffne"]
 [ext_resource type="Material" uid="uid://do3sqrvjjfjfr" path="res://BattleArena/Tiles/Highlight.tres" id="3_3hofw"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_jogmx"]
-
 [node name="Cubes" type="Node3D"]
 
-[node name="WalkableTile" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_jogmx")
-surface_material_override/0 = ExtResource("1_8kh4c")
+[node name="WalkableTile" parent="." instance=ExtResource("1_a7o6n")]
 
-[node name="NonWalkableTile" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_jogmx")
-surface_material_override/0 = ExtResource("2_vffne")
-
-[node name="WalkableHighlightedTile" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_jogmx")
+[node name="WalkableHighlightedTile" parent="." instance=ExtResource("1_a7o6n")]
 surface_material_override/0 = ExtResource("3_3hofw")
+
+[node name="NonWalkableTile" parent="." instance=ExtResource("1_a7o6n")]
+surface_material_override/0 = ExtResource("2_vffne")
