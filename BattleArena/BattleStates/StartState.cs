@@ -6,7 +6,9 @@ public partial class StartState : State
     public override void Enter()
     {
         //Get the Players and Enemies
+        var battleController = GetTree().Root.GetNode<BattleController>("BattleController");
         //spawn them
+        battleController.SpawnUnit(new Vector3I(3, 0, 3));
         //determine turn order
         //switch to appropriate state
 
