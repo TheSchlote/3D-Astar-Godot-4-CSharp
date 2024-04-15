@@ -8,8 +8,18 @@ public partial class StartState : State
         //Get the Players and Enemies
         var battleController = GetTree().Root.GetNode<BattleController>("BattleController");
         //spawn them
-        battleController.SpawnUnit(new Vector3I(3, 0, 3));
+        for (int i = 0; i < battleController.PlayerUnits.Length; i++)
+        {
+            PackedScene unit = battleController.PlayerUnits[i];
+            battleController.SpawnUnit(unit, new Vector3I(2, 0, 2)); //TODO have multipe spawn locations
+        }
+        for (int i = 0; i < battleController.EnemyUnits.Length; i++)
+        {
+            PackedScene unit = battleController.EnemyUnits[i];
+            battleController.SpawnUnit(unit, new Vector3I(22, 0, 22)); //TODO have multipe spawn locations
+        }
         //determine turn order
+
         //switch to appropriate state
 
         //For now lets just go to player state
