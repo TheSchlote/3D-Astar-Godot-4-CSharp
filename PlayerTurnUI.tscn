@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://dce434grumcyg"]
+
+[ext_resource type="Script" path="res://PlayerTurnUIPanel.cs" id="1_ab3e1"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 400.0
+offset_bottom = 50.0
+script = ExtResource("1_ab3e1")
+
+[node name="MoveButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 50.0
+text = "Move"
+
+[node name="AttackButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 150.0
+offset_right = 250.0
+offset_bottom = 50.0
+text = "Attack"
+
+[node name="EndTurnButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 400.0
+offset_bottom = 50.0
+text = "End Turn"
