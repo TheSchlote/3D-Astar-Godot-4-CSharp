@@ -11,10 +11,11 @@
 [ext_resource type="Script" path="res://BattleArena/BattleStates/EndState.cs" id="9_bosne"]
 [ext_resource type="PackedScene" uid="uid://cut4suxn1fgh4" path="res://Unit/Unit.tscn" id="10_t1ggm"]
 
-[node name="BattleController" type="Node3D" node_paths=PackedStringArray("BattleStates", "BattleArena")]
+[node name="BattleController" type="Node3D" node_paths=PackedStringArray("unitsContainer", "BattleStates", "BattleArena")]
 script = ExtResource("1_po38v")
 PlayerUnits = Array[PackedScene]([ExtResource("10_t1ggm")])
 EnemyUnits = Array[PackedScene]([ExtResource("10_t1ggm")])
+unitsContainer = NodePath("Units")
 BattleStates = NodePath("BattleStates")
 BattleArena = NodePath("GridMap")
 
@@ -48,3 +49,5 @@ script = ExtResource("8_yx2vy")
 
 [node name="End" type="Node" parent="BattleStates"]
 script = ExtResource("9_bosne")
+
+[node name="Units" type="Node3D" parent="."]
