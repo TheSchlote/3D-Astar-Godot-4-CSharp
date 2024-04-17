@@ -27,8 +27,6 @@ public partial class BattleController : Node3D
         unitInstance.IsPlayerUnit = isPlayer;
         worldPosition = worldPosition + new Vector3I(0, 1, 0);//adjust visual to stand on tile
         unitInstance.Transform = new Transform3D(Basis.Identity, worldPosition);
-        unitInstance.GetNode("FX").GetNode<AnimationPlayer>("AnimationPlayer").Play("Swordandshieldidle");
-        unitInstance.GetNode("FX").GetNode<AnimationPlayer>("AnimationPlayer").GetAnimation("Swordandshieldidle").LoopMode = Animation.LoopModeEnum.Linear;
         unitsContainer.CallDeferred("add_child", unitInstance);
         TurnOrder.Add(unitInstance);
     }

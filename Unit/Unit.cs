@@ -1,10 +1,11 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Unit : Node3D
 {
     [Export]
-    public Vector3I GridPosition { get; set; }
+    public Vector3 GridPosition { get; set; }
     [Export]
     public int MaxHealth { get; set; }
     [Export]
@@ -27,6 +28,12 @@ public partial class Unit : Node3D
             RecalculateActionPoints();
         }
     }
+    [Export]
+    public float MoveSpeed = 1f; // Units per second
+
+    private Queue<Vector3> pathQueue = new Queue<Vector3>();
+
+
     public int ActionPoints { get; set; } = 0;
     // Recalculate Action Points when speed is adjusted
     private void RecalculateActionPoints()
@@ -39,12 +46,36 @@ public partial class Unit : Node3D
     {
         ActionPoints += Speed;
     }
-    public void MoveTo(Vector3I newGridPosition)
+
+    public void FollowPath(List<Vector3> path)
     {
-        GridPosition = newGridPosition;
-        SimpleAStarPathfinding battleArena = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
-        Vector3 worldPosition = battleArena.MapToLocal(newGridPosition); // Ensure BattleArena is referenced correctly
-        GlobalTransform = new Transform3D(GlobalTransform.Basis, worldPosition);
-        GD.Print("Unit moved to: ", newGridPosition);
+        pathQueue = new Queue<Vector3>(path);
+        SetProcess(true); 
+    }
+
+    public override void _Process(double delta)
+    {
+        if (pathQueue.Count > 0)
+        {
+            Vector3 nextPos = pathQueue.Peek() + new Vector3(0,1,0);
+            Vector3 direction = (nextPos - Position).Normalized();
+            float step = (float)(MoveSpeed * delta);
+
+            if ((Position - nextPos).Length() <= step)
+            {
+                nextPos = Position;
+                Position = nextPos;
+                pathQueue.Dequeue();
+
+                if (pathQueue.Count == 0)
+                {
+                    SetProcess(false);  // Stop processing when the path is complete
+                }
+            }
+            else
+            {
+                Position += direction * step;
+            }
+        }
     }
 }
