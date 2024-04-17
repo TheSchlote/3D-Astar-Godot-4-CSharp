@@ -7,7 +7,7 @@ public partial class BattleStates : Node
     public NodePath initialState;
 
     private Dictionary<string, State> _states;
-    private State _currentState;
+    public State CurrentState;
 
     public override void _Ready()
     {
@@ -23,34 +23,34 @@ public partial class BattleStates : Node
             }
         }
 
-        _currentState = GetNode<State>(initialState);
-        _currentState.Enter();
+        CurrentState = GetNode<State>(initialState);
+        CurrentState.Enter();
     }
 
     public override void _Process(double delta)
     {
-        _currentState.Update((float) delta);
+        CurrentState.Update((float) delta);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        _currentState._PhysicsProcess((float)delta);
+        CurrentState._PhysicsProcess((float)delta);
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        _currentState.HandleInput(@event);
+        CurrentState.HandleInput(@event);
     }
 
     public void TransitionTo(string key)
     {
-        if (!_states.ContainsKey(key) || _currentState == _states[key])
+        if (!_states.ContainsKey(key) || CurrentState == _states[key])
         {
             return;
         }
 
-        _currentState.Exit();
-        _currentState = _states[key];
-        _currentState.Enter();
+        CurrentState.Exit();
+        CurrentState = _states[key];
+        CurrentState.Enter();
     }
 }

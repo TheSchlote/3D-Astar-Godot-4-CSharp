@@ -5,9 +5,6 @@
 
 [node name="Unit" type="Node3D"]
 script = ExtResource("1_3ngum")
-MaxHealth = 10
-CurrentHealth = 10
-Movement = 3
 Speed = 5
 
 [node name="FX" parent="." instance=ExtResource("2_w0fks")]

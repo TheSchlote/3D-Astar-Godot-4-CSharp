@@ -2,123 +2,103 @@ using Godot;
 
 public partial class Gimbal : Node3D
 {
-    [Export]
-    public SimpleAStarPathfinding BattleArena;
-    public Node3D InnerGimbal;
-    public Camera3D Camera;
+    [Signal]
+    public delegate void RequestPathUpdateEventHandler(Vector3I newStart, Vector3I newEnd);
 
-    [Export]
-    float maxZoom = 3.0f;
-    [Export]
-    float minZoom = 0.5f;
-    [Export]
-    float zoomSpeed = 0.08f;
+    [Export] public NodePath BattleArenaPath;
+    public Camera3D Camera;
+    public Node3D InnerGimbal;
+
+    [Export] float maxZoom = 3.0f;
+    [Export] float minZoom = 0.5f;
+    [Export] float zoomSpeed = 0.08f;
+    [Export] float speed = 0.3f;
+    [Export] float dragSpeed = 0.005f;
+    [Export] float acceleration = 0.08f;
+    [Export] float mouseSensitivity = 0.005f;
 
     float zoom = 1.5f;
-
-    [Export]
-    float speed = 0.3f;
-    [Export]
-    float dragSpeed = 0.005f;
-    [Export]
-    float acceleration = 0.08f;
-    [Export]
-    float mouseSensitivity = 0.005f;
-
     Vector3 move;
 
-
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Camera = GetNode<Camera3D>("InnerGimbal/Camera3D");
         InnerGimbal = GetNode<Node3D>("InnerGimbal");
-    }
+        Camera = GetNode<Camera3D>("InnerGimbal/Camera3D");
 
+        SimpleAStarPathfinding battleArena = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
+        if (battleArena != null)
+        {
+            Connect(SignalName.RequestPathUpdate, new Callable(battleArena, "UpdatePath"));
+        }
+        else
+        {
+            GD.PrintErr("BattleArena node not found or incorrect path!");
+        }
+    }
     public override void _Input(InputEvent @event)
     {
+        if (HandleRaycast(@event)) return;
         HandleCameraMovement(@event);
-        if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsPressed())
+    }
+    private bool IsPlayerStateActive()
+    {
+        var battleController = GetTree().Root.GetNode<BattleController>("BattleController");
+        var currentState = battleController.BattleStates.CurrentState;
+        return currentState is PlayerState;
+    }
+    private bool HandleRaycast(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
         {
             Vector2 mousePosition = GetViewport().GetMousePosition();
             Vector3 from = Camera.ProjectRayOrigin(mousePosition);
-            Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000; // Ray length of 1000 units
+            Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000;
             PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-            PhysicsRayQueryParameters3D queryParameters = new PhysicsRayQueryParameters3D
+            PhysicsRayQueryParameters3D queryParameters = new PhysicsRayQueryParameters3D { From = from, To = to };
+
+            var result = spaceState.IntersectRay(queryParameters);
+            if (result.ContainsKey("collider") && result["collider"].Obj is GridMap gridMap)
             {
-                From = from,
-                To = to
-            };
-            Vector3 direction = (to - from).Normalized(); // Calculate the normalized direction of the ray
-
-            GD.Print("Raycast direction: ", direction); // Print the direction of the raycast
-
-            Godot.Collections.Dictionary result = spaceState.IntersectRay(queryParameters);
-
-            if (result.ContainsKey("collider"))
-            {
-                var collider = result["collider"];
-                if (collider.Obj is GridMap gridMap)
+                Vector3 hitPosition = (Vector3)result["position"];
+                Vector3 localHitPosition = gridMap.ToLocal(hitPosition);
+                Vector3I gridPosition = GetStableGridPosition(localHitPosition, to - from);
+                if (IsPlayerStateActive())
                 {
-                    Vector3 hitPosition = (Vector3)result["position"];
-                    Vector3 localHitPosition = gridMap.ToLocal(hitPosition);
-                    Vector3I gridPosition = GetStableGridPosition(localHitPosition, direction);
-
-                    GD.Print("Hit Position: ", hitPosition, " Local Hit Position: ", localHitPosition, " Grid Position: ", gridPosition);
-                    BattleArena.UpdatePath(BattleArena.startPosition, gridPosition);
+                    EmitSignal(nameof(RequestPathUpdate), new Vector3(2, 0, 2), gridPosition);
                 }
+                return true;
             }
         }
+        return false;
     }
     private Vector3I GetStableGridPosition(Vector3 localHitPosition, Vector3 rayCastDirection)
     {
-        int x;
-        if (IsInteger(localHitPosition.X) && rayCastDirection.X > 0 && rayCastDirection.Z > 0)
+        int AdjustPosition(float position, float direction)
         {
-            x = (int)localHitPosition.X;
-        }
-        else if (IsInteger(localHitPosition.X) && rayCastDirection.X < 0 && rayCastDirection.Z < 0)
-        {
-            x = (int)localHitPosition.X - 1;
-        }
-        else if (IsInteger(localHitPosition.X) && rayCastDirection.X < 0 && rayCastDirection.Z > 0)
-        {
-            x = (int)localHitPosition.X - 1;
-        }
-        else
-        {
-            x = Mathf.RoundToInt(localHitPosition.X - (BattleArena.CellScale / 2));
+            if (IsInteger(position))
+            {
+                return (int)Mathf.Floor(position + 0.5f * (direction < 0 ? -1 : 1));
+            }
+            else
+            {
+                return Mathf.RoundToInt(position - (0.5f));
+            }
         }
 
-        int y = IsInteger(localHitPosition.Y) ? (int)localHitPosition.Y - 1 : Mathf.RoundToInt(localHitPosition.Y - BattleArena.CellScale / 2);
-        int z;
-        if (IsInteger(localHitPosition.Z) && rayCastDirection.X > 0 && rayCastDirection.Z > 0)
-        {
-            z = (int)localHitPosition.Z;
-        }
-        else if (IsInteger(localHitPosition.Z) && rayCastDirection.X < 0 && rayCastDirection.Z < 0)
-        {
-            z = (int)localHitPosition.Z - 1;
-        }
-        else if (IsInteger(localHitPosition.Z) && rayCastDirection.X < 0 && rayCastDirection.Z > 0)
-        {
-            z = (int)localHitPosition.Z;
-        }
-        else if (IsInteger(localHitPosition.Z) && rayCastDirection.X > 0 && rayCastDirection.Z < 0)
-        {
-            z = (int)localHitPosition.Z - 1;
-        }
-        else
-        {
-            z = Mathf.RoundToInt(localHitPosition.Z - BattleArena.CellScale / 2);
-        }
+        int x = AdjustPosition(localHitPosition.X, rayCastDirection.X);
+        int y = IsInteger(localHitPosition.Y) ? (int)Mathf.Floor(localHitPosition.Y + 0.5f) - 1 : Mathf.RoundToInt(localHitPosition.Y - 0.5f);
+        int z = AdjustPosition(localHitPosition.Z, rayCastDirection.Z);
 
         return new Vector3I(x, y, z);
     }
+
     private bool IsInteger(float value)
     {
-        return Mathf.Abs(value - Mathf.Round(value)) < Mathf.Epsilon;
+        // Define a tolerance level, which might need tuning based on specific use cases or testing
+        float tolerance = 0.0001f; // This tolerance can be adjusted as needed
+        return Mathf.Abs(value - Mathf.Round(value)) < tolerance;
     }
+
     private void HandleCameraMovement(InputEvent @event)
     {
         if (Input.IsActionPressed("rotate_cam") && @event is InputEventMouseMotion mouseMotion)

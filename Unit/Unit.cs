@@ -39,4 +39,12 @@ public partial class Unit : Node3D
     {
         ActionPoints += Speed;
     }
+    public void MoveTo(Vector3I newGridPosition)
+    {
+        GridPosition = newGridPosition;
+        SimpleAStarPathfinding battleArena = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
+        Vector3 worldPosition = battleArena.MapToLocal(newGridPosition); // Ensure BattleArena is referenced correctly
+        GlobalTransform = new Transform3D(GlobalTransform.Basis, worldPosition);
+        GD.Print("Unit moved to: ", newGridPosition);
+    }
 }

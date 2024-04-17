@@ -38,6 +38,7 @@ public partial class BattleController : Node3D
         foreach (var unit in TurnOrder)
         {
             unit.AccumulateActionPoints();
+            GD.Print(unit.ActionPoints);
         }
 
         // Determine the next unit to act based on who reaches the action threshold first
@@ -46,6 +47,7 @@ public partial class BattleController : Node3D
         {
             NextTurn();
         }
+        GD.Print(TurnOrder);
     }
     public void NextTurn()
     {

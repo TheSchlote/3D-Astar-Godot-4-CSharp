@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 public partial class SimpleAStarPathfinding : GridMap
 {
-    [Export]
-    public Vector3I startPosition;
-    [Export]
-    public Vector3I endPosition;
+    public Vector3I StartPosition;
+    public Vector3I EndPosition;
 
     private AStar3D aStar = new AStar3D();
-    private List<Vector3> path = new List<Vector3>();
+    public List<Vector3> Path = new List<Vector3>();
 
     private const string WalkableTileName = "WalkableTile";
     private const string WalkableHighlightedTileName = "WalkableHighlightedTile";
@@ -93,19 +91,19 @@ public partial class SimpleAStarPathfinding : GridMap
 
     private void FindPath()
     {
-        int startId = GetCellIdFromPosition(startPosition);
-        int endId = GetCellIdFromPosition(endPosition);
+        int startId = GetCellIdFromPosition(StartPosition);
+        int endId = GetCellIdFromPosition(EndPosition);
 
         List<Vector3> fullPath = new List<Vector3>(aStar.GetPointPath(startId, endId));
 
         // Optionally, remove the start and end positions from the fullPath if they are not to be walkable
-        path.Clear();
+        Path.Clear();
         foreach (Vector3 pos in fullPath)
         {
             Vector3I gridPos = LocalToMap(pos - GlobalTransform.Origin);
-            if (gridPos != startPosition && gridPos != endPosition)
+            if (gridPos != StartPosition && gridPos != EndPosition)
             {
-                path.Add(pos);
+                Path.Add(pos);
             }
             else
             {
@@ -117,21 +115,19 @@ public partial class SimpleAStarPathfinding : GridMap
         }
     }
 
-    // Call this method whenever you need to update the path, for example, when a unit moves.
     public void UpdatePath(Vector3I newStart, Vector3I newEnd)
     {
+        StartPosition = newStart;
+        EndPosition = newEnd;
         InitializeAStar();
-        startPosition = newStart;
-        endPosition = newEnd;
         FindPath();
         HighlightPath();
     }
 
-
     private void HighlightPath()
     {
         int highlightedTileId = GetMeshLibraryItemIdByName(WalkableHighlightedTileName);
-        foreach (Vector3 worldPosition in path)
+        foreach (Vector3 worldPosition in Path)
         {
             Vector3 localPosition = GlobalTransform.Origin + worldPosition;
             Vector3I gridPosition = LocalToMap(localPosition);
@@ -141,8 +137,8 @@ public partial class SimpleAStarPathfinding : GridMap
 
     private void SpawnCapsules()
     {
-        SpawnCapsule(startPosition, Colors.Green);
-        SpawnCapsule(endPosition, Colors.Red);
+        SpawnCapsule(StartPosition, Colors.Green);
+        SpawnCapsule(EndPosition, Colors.Red);
     }
 
     private void SpawnCapsule(Vector3I gridPosition, Color color)

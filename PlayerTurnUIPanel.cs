@@ -5,6 +5,8 @@ public partial class PlayerTurnUIPanel : Panel
     // Signal to emit when an action is selected
     [Signal]
     public delegate void ActionSelectedEventHandler(string action);
+    [Signal]
+    public delegate void MoveRequestEventHandler();
 
     public override void _Ready()
     {
@@ -15,7 +17,7 @@ public partial class PlayerTurnUIPanel : Panel
 
     private void OnMoveButtonPressed()
     {
-        EmitSignal(nameof(ActionSelected), "move");
+        EmitSignal(nameof(MoveRequest));
     }
 
     private void OnAttackButtonPressed()
