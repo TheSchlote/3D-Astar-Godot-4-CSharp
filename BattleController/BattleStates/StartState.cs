@@ -12,7 +12,7 @@ public partial class StartState : State
         for (int i = 0; i < battleController.EnemyUnits.Length; i++)
         {
             PackedScene unit = battleController.EnemyUnits[i];
-            battleController.SpawnUnit(unit, new Vector3I(22, 0, 22), false); //TODO have multipe spawn locations
+            battleController.SpawnUnit(unit, new Vector3I(2, 1, 7), false); //TODO have multipe spawn locations
         }
         for (int i = 0; i < battleController.PlayerUnits.Length; i++)
         {

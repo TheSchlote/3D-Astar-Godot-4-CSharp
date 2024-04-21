@@ -9,9 +9,12 @@ public partial class SimpleAStarPathfinding : GridMap
     private AStar3D aStar = new AStar3D();
     public List<Vector3> Path = new List<Vector3>();
 
-    private const string WalkableTileName = "WalkableTile";
+    public string WalkableTileName = "WalkableTile";
     private const string WalkableHighlightedTileName = "WalkableHighlightedTile";
     private const string NonWalkableTileName = "NonWalkableTile";
+    public string PlayerOccupiedTileName = "PlayerOccupiedTile";
+    public string EnemyOccupiedTileName = "EnemyOccupiedTile";
+
     public override void _Ready()
     {
         InitializeAStar();
@@ -96,28 +99,24 @@ public partial class SimpleAStarPathfinding : GridMap
 
         List<Vector3> fullPath = new List<Vector3>(aStar.GetPointPath(startId, endId));
 
-        // Optionally, remove the start and end positions from the fullPath if they are not to be walkable
         Path.Clear();
         foreach (Vector3 pos in fullPath)
         {
             Vector3I gridPos = LocalToMap(pos - GlobalTransform.Origin);
-            if (gridPos != StartPosition && gridPos != EndPosition)
+            if (!IsOccupiedCell(gridPos))
             {
                 Path.Add(pos);
             }
-            else
-            {
-                int nonWalkableTileId = GetMeshLibraryItemIdByName(NonWalkableTileName);
-                Vector3 localPosition = GlobalTransform.Origin + pos;
-                Vector3I gridPosition = LocalToMap(localPosition);
-                SetCellItem(gridPosition, nonWalkableTileId);
-            }
         }
     }
-
-    public void UpdatePath(Vector3I newStart, Vector3I newEnd)
+    private bool IsOccupiedCell(Vector3I cell)
     {
-        StartPosition = newStart;
+        int item = GetCellItem(cell);
+        return item == GetMeshLibraryItemIdByName(PlayerOccupiedTileName) || item == GetMeshLibraryItemIdByName(EnemyOccupiedTileName);
+    }
+
+    public void UpdatePath(Vector3I newEnd)
+    {
         EndPosition = newEnd;
         InitializeAStar();
         FindPath();
@@ -134,19 +133,16 @@ public partial class SimpleAStarPathfinding : GridMap
             SetCellItem(gridPosition, highlightedTileId);
         }
     }
-
-    private void SpawnCapsules()
+    public void ClearHighlightedPath()
     {
-        SpawnCapsule(StartPosition, Colors.Green);
-        SpawnCapsule(EndPosition, Colors.Red);
-    }
-
-    private void SpawnCapsule(Vector3I gridPosition, Color color)
-    {
-        Vector3 localPosition = MapToLocal(gridPosition);
-        Vector3 worldPosition = GlobalTransform.Origin + localPosition;
-        var capsule = CreateCapsuleMeshInstance(color, worldPosition);
-        AddChild(capsule);
+        int normalTileId = GetMeshLibraryItemIdByName(WalkableTileName);
+        foreach (Vector3I cell in GetUsedCells())
+        {
+            if (GetCellItem(cell) == GetMeshLibraryItemIdByName(WalkableHighlightedTileName))
+            {
+                SetCellItem(cell, normalTileId);
+            }
+        }
     }
 
     private int GetCellIdFromPosition(Vector3I position)
@@ -163,19 +159,7 @@ public partial class SimpleAStarPathfinding : GridMap
         return new Vector3I(x, y, z);
     }
 
-    private MeshInstance3D CreateCapsuleMeshInstance(Color color, Vector3 worldPosition)
-    {
-        MeshInstance3D meshInstance = new MeshInstance3D();
-        CapsuleMesh capsuleMesh = new CapsuleMesh();
-        meshInstance.Mesh = capsuleMesh;
-        StandardMaterial3D matColor = new StandardMaterial3D() { AlbedoColor = color };
-        meshInstance.SetSurfaceOverrideMaterial(0, matColor);
-        worldPosition = worldPosition + new Vector3I(0, 1, 0);//adjust visual to stand on tile
-        meshInstance.GlobalTransform = new Transform3D(Basis.Identity, worldPosition);
-        return meshInstance;
-    }
-
-    private int GetMeshLibraryItemIdByName(string name)
+    public int GetMeshLibraryItemIdByName(string name)
     {
         foreach (var key in MeshLibrary.GetItemList())
         {

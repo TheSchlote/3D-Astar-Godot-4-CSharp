@@ -1,12 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://cut4suxn1fgh4"]
+[gd_scene load_steps=4 format=3 uid="uid://cut4suxn1fgh4"]
 
 [ext_resource type="Script" path="res://Unit/Unit.cs" id="1_3ngum"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n3krg"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f42lg"]
+
 [node name="Unit" type="Node3D"]
 script = ExtResource("1_3ngum")
+Movement = 3
 Speed = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_n3krg")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_f42lg")

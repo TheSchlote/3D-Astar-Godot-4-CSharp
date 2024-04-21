@@ -3,9 +3,8 @@ using Godot;
 public partial class Gimbal : Node3D
 {
     [Signal]
-    public delegate void RequestPathUpdateEventHandler(Vector3I newStart, Vector3I newEnd);
+    public delegate void RequestPathUpdateEventHandler(Vector3I newEnd);
 
-    [Export] public NodePath BattleArenaPath;
     public Camera3D Camera;
     public Node3D InnerGimbal;
 
@@ -40,11 +39,21 @@ public partial class Gimbal : Node3D
         if (HandleRaycast(@event)) return;
         HandleCameraMovement(@event);
     }
-    private bool IsPlayerStateActive()
+    private bool CanChooseNewPath()
     {
         var battleController = GetTree().Root.GetNode<BattleController>("BattleController");
+        battleController.BattleArena.ClearHighlightedPath();
         var currentState = battleController.BattleStates.CurrentState;
-        return currentState is PlayerState;
+        if (currentState is PlayerState)
+        {
+            var playerState = currentState as PlayerState;
+            if (playerState.hasMoved == false)
+            {
+                return true;
+            }
+            
+        }
+        return false;
     }
     private bool HandleRaycast(InputEvent @event)
     {
@@ -62,9 +71,10 @@ public partial class Gimbal : Node3D
                 Vector3 hitPosition = (Vector3)result["position"];
                 Vector3 localHitPosition = gridMap.ToLocal(hitPosition);
                 Vector3I gridPosition = GetStableGridPosition(localHitPosition, to - from);
-                if (IsPlayerStateActive())
+                if (CanChooseNewPath())
                 {
-                    EmitSignal(nameof(RequestPathUpdate), new Vector3(2, 0, 2), gridPosition);
+
+                    EmitSignal(nameof(RequestPathUpdate), gridPosition);
                 }
                 return true;
             }

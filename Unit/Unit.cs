@@ -1,11 +1,9 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public partial class Unit : Node3D
 {
-    [Export]
-    public Vector3 GridPosition { get; set; }
+
     [Export]
     public int MaxHealth { get; set; }
     [Export]
@@ -46,13 +44,20 @@ public partial class Unit : Node3D
     {
         ActionPoints += Speed;
     }
-
     public void FollowPath(List<Vector3> path)
     {
-        pathQueue = new Queue<Vector3>(path);
-        SetProcess(true); 
-    }
+        // Clear any existing path
+        pathQueue.Clear();
 
+        for (int i = 0; i < Mathf.Min(path.Count, Movement); i++)
+        {
+            pathQueue.Enqueue(path[i]);
+        }
+        if (pathQueue.Count > 0)
+        {
+            SetProcess(true);
+        }
+    }
     public override void _Process(double delta)
     {
         if (pathQueue.Count > 0)

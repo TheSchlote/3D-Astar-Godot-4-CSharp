@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6avm4prpwsum"]
 
-[ext_resource type="Material" uid="uid://b60r4ut32x68t" path="res://BattleArena/Tiles/Standard.tres" id="1_4i8en"]
+[ext_resource type="Material" uid="uid://b60r4ut32x68t" path="res://BattleController/Tiles/Colors/Standard.tres" id="1_4i8en"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_jogmx"]
 

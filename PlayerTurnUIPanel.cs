@@ -4,9 +4,11 @@ public partial class PlayerTurnUIPanel : Panel
 {
     // Signal to emit when an action is selected
     [Signal]
-    public delegate void ActionSelectedEventHandler(string action);
+    public delegate void AttackEventHandler(string action);
     [Signal]
     public delegate void MoveRequestEventHandler();
+    [Signal]
+    public delegate void EndTurnEventHandler();
 
     public override void _Ready()
     {
@@ -22,11 +24,11 @@ public partial class PlayerTurnUIPanel : Panel
 
     private void OnAttackButtonPressed()
     {
-        EmitSignal(nameof(ActionSelected), "attack");
+        EmitSignal(nameof(Attack));
     }
 
     private void OnEndTurnButtonPressed()
     {
-        EmitSignal(nameof(ActionSelected), "end_turn");
+        EmitSignal(nameof(EndTurn));
     }
 }

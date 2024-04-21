@@ -44,13 +44,17 @@ public partial class BattleStates : Node
 
     public void TransitionTo(string key)
     {
-        if (!_states.ContainsKey(key) || CurrentState == _states[key])
+        if (!_states.ContainsKey(key))
         {
             return;
         }
 
-        CurrentState.Exit();
-        CurrentState = _states[key];
-        CurrentState.Enter();
+        if (CurrentState != _states[key])
+        {
+            CurrentState.Exit();
+            CurrentState = _states[key];
+            CurrentState.Enter();
+        }
     }
+
 }
