@@ -15,29 +15,20 @@ public partial class SimpleAStarPathfinding : GridMap
     public string PlayerOccupiedTileName = "PlayerOccupiedTile";
     public string EnemyOccupiedTileName = "EnemyOccupiedTile";
 
-    public override void _Ready()
-    {
-        InitializeAStar();
-    }
-
     private void InitializeAStar()
     {
         foreach (Vector3I cell in GetUsedCells())
         {
-            if (IsWalkableCell(cell))
+            if (IsWalkableCell(cell) || cell == StartPosition)
             {
-                AddCellToAStar(cell);
+                int cellId = GetCellIdFromPosition(cell);
+                aStar.AddPoint(cellId, MapToLocal(cell), 1);
             }
         }
-        ConnectWalkableCells();
-    }
-
-    private void AddCellToAStar(Vector3I cell)
-    {
-        int cellId = GetCellIdFromPosition(cell);
-        Vector3 localPosition = MapToLocal(cell);
-        Vector3 worldPosition = GlobalTransform.Origin + localPosition;
-        aStar.AddPoint(cellId, worldPosition, 1);
+        foreach (int cellId in aStar.GetPointIds())
+        {
+            ConnectCellNeighbors(cellId);
+        }
     }
 
     private bool IsWalkableCell(Vector3I cell)
@@ -45,18 +36,10 @@ public partial class SimpleAStarPathfinding : GridMap
         return GetCellItem(cell) == GetMeshLibraryItemIdByName(WalkableTileName);
     }
 
-    private void ConnectWalkableCells()
-    {
-        foreach (int cellId in aStar.GetPointIds())
-        {
-            ConnectCellNeighbors(cellId);
-        }
-    }
-
     private void ConnectCellNeighbors(int cellId)
     {
         Vector3I cellPosition = GetPositionFromCellId(cellId);
-        Vector3I[] directions = {Vector3I.Right, Vector3I.Left, Vector3I.Forward, Vector3I.Back};
+        Vector3I[] directions = { Vector3I.Right, Vector3I.Left, Vector3I.Forward, Vector3I.Back };
 
         foreach (Vector3I direction in directions)
         {
@@ -98,17 +81,17 @@ public partial class SimpleAStarPathfinding : GridMap
         int endId = GetCellIdFromPosition(EndPosition);
 
         List<Vector3> fullPath = new List<Vector3>(aStar.GetPointPath(startId, endId));
-
         Path.Clear();
         foreach (Vector3 pos in fullPath)
         {
-            Vector3I gridPos = LocalToMap(pos - GlobalTransform.Origin);
+            Vector3I gridPos = LocalToMap(pos);
             if (!IsOccupiedCell(gridPos))
             {
                 Path.Add(pos);
             }
         }
     }
+
     private bool IsOccupiedCell(Vector3I cell)
     {
         int item = GetCellItem(cell);
@@ -118,18 +101,19 @@ public partial class SimpleAStarPathfinding : GridMap
     public void UpdatePath(Vector3I newEnd)
     {
         EndPosition = newEnd;
+        aStar.Clear();
         InitializeAStar();
         FindPath();
         HighlightPath();
     }
+
 
     private void HighlightPath()
     {
         int highlightedTileId = GetMeshLibraryItemIdByName(WalkableHighlightedTileName);
         foreach (Vector3 worldPosition in Path)
         {
-            Vector3 localPosition = GlobalTransform.Origin + worldPosition;
-            Vector3I gridPosition = LocalToMap(localPosition);
+            Vector3I gridPosition = LocalToMap(worldPosition);
             SetCellItem(gridPosition, highlightedTileId);
         }
     }

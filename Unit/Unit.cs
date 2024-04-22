@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 public partial class Unit : Node3D
 {
-
+    [Export]
+    public Vector3I GridPosition { get; set; }
     [Export]
     public int MaxHealth { get; set; }
     [Export]
     public int CurrentHealth { get; set; }
+    [Export]
+    public int Attack {  get; set; }
     [Export]
     public int Movement { get; set; }
     [Export]
@@ -62,7 +65,7 @@ public partial class Unit : Node3D
     {
         if (pathQueue.Count > 0)
         {
-            Vector3 nextPos = pathQueue.Peek() + new Vector3(0,1,0);
+            Vector3 nextPos = pathQueue.Peek();
             Vector3 direction = (nextPos - Position).Normalized();
             float step = (float)(MoveSpeed * delta);
 

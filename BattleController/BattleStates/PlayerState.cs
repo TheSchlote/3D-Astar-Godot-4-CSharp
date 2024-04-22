@@ -27,7 +27,7 @@ public partial class PlayerState : State
             uiPanel.Connect(nameof(PlayerTurnUIPanel.EndTurn), new Callable(this, MethodName.EndTurn));
             uiPanel.Connect(nameof(PlayerTurnUIPanel.Attack), new Callable(this, MethodName.OnAttackRequest));
         }
-        battleController.BattleArena.StartPosition = (Vector3I)currentUnit.Position + new Vector3I(0, -1, 0);
+        battleController.BattleArena.StartPosition = (Vector3I)currentUnit.Position;
 
         canvasLayer.Visible = true;
     }
@@ -37,7 +37,7 @@ public partial class PlayerState : State
         {
             GD.Print("Move requested by player. Waiting for destination selection.");
             var pathFinder = battleController.BattleArena;
-            battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position + new Vector3I(0, -1, 0), battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.WalkableTileName));
+            battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position, battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.WalkableTileName));
             currentUnit.FollowPath(pathFinder.Path);
             battleController.BattleArena.ClearHighlightedPath();
             hasMoved = true;
@@ -76,7 +76,7 @@ public partial class PlayerState : State
 
         if (hasMoved)
         {
-            battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position + new Vector3I(0, -1, 0), battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.PlayerOccupiedTileName));
+            battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position, battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.PlayerOccupiedTileName));
         }
 
         uiPanel = GetTree().Root.GetNode<PlayerTurnUIPanel>("BattleController/CanvasLayer/Panel");

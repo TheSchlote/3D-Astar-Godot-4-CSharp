@@ -34,9 +34,10 @@ public partial class BattleController : Node3D
             BattleArena.SetCellItem(gridPosition, BattleArena.GetMeshLibraryItemIdByName(BattleArena.EnemyOccupiedTileName));
         }
         unitInstance.IsPlayerUnit = isPlayer;
-        worldPosition = worldPosition + new Vector3I(0, 1, 0);//adjust visual to stand on tile
         unitInstance.Transform = new Transform3D(Basis.Identity, worldPosition);
         unitsContainer.CallDeferred("add_child", unitInstance);
+        unitInstance.Name = unitInstance.UnitName;
+        unitInstance.GridPosition = gridPosition;
         TurnOrder.Add(unitInstance);
     }
     public void DetermineTurnOrder()

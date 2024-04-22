@@ -8,13 +8,18 @@
 
 [node name="Unit" type="Node3D"]
 script = ExtResource("1_3ngum")
+MaxHealth = 10
+CurrentHealth = 10
 Movement = 3
+UnitName = "TestUnit"
 Speed = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_n3krg")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_f42lg")
