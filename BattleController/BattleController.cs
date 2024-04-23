@@ -4,6 +4,8 @@ using System.Linq;
 
 public partial class BattleController : Node3D
 {
+    public List<Unit> AllUnits { get; set; } = new List<Unit>();
+
     [Export]
     public PackedScene[] PlayerUnits;
     [Export]
@@ -39,6 +41,7 @@ public partial class BattleController : Node3D
         unitInstance.Name = unitInstance.UnitName;
         unitInstance.GridPosition = gridPosition;
         TurnOrder.Add(unitInstance);
+        AllUnits.Add(unitInstance);
     }
     public void DetermineTurnOrder()
     {
@@ -55,7 +58,6 @@ public partial class BattleController : Node3D
         {
             NextTurn();
         }
-        GD.Print(TurnOrder);
     }
     public void NextTurn()
     {
@@ -69,6 +71,26 @@ public partial class BattleController : Node3D
 
         // Re-sort units based on remaining AP for subsequent actions
         TurnOrder.Sort((a, b) => b.ActionPoints.CompareTo(a.ActionPoints));
+    }
+    public Unit GetClosestEnemyUnit(Unit currentUnit)
+    {
+        Unit closestEnemy = null;
+        int minPathLength = int.MaxValue;
+
+        foreach (Unit unit in AllUnits)
+        {
+            if (unit.IsPlayerUnit != currentUnit.IsPlayerUnit) // Ensure it's an enemy unit
+            {
+                int pathLength = BattleArena.GetPathLength(currentUnit.GridPosition, unit.GridPosition);
+                if (pathLength < minPathLength)
+                {
+                    minPathLength = pathLength;
+                    closestEnemy = unit;
+                }
+            }
+        }
+
+        return closestEnemy;
     }
 
 }

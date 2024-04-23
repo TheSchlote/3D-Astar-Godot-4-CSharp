@@ -52,7 +52,12 @@ public partial class PlayerState : State
         if (!hasAttacked)
         {
             GD.Print("Attack initiated by player.");
-            // Assume some attack functionality here.
+            // Sample target selection, assuming a method to get the closest enemy
+            Unit target = FindClosestEnemy();
+            if (target != null)
+            {
+                currentUnit.AttackUnit(target);
+            }
             hasAttacked = true;
         }
         else
@@ -60,6 +65,13 @@ public partial class PlayerState : State
             GD.Print("Player has already attacked this turn.");
         }
     }
+
+    private Unit FindClosestEnemy()
+    {
+        // Placeholder for actual target selection logic
+        return battleController.GetClosestEnemyUnit(currentUnit);
+    }
+
     private void EndTurn()
     {
         Exit();
@@ -76,6 +88,7 @@ public partial class PlayerState : State
 
         if (hasMoved)
         {
+            currentUnit.GridPosition = (Vector3I)currentUnit.Position;
             battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position, battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.PlayerOccupiedTileName));
         }
 

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class SimpleAStarPathfinding : GridMap
 {
@@ -141,6 +142,17 @@ public partial class SimpleAStarPathfinding : GridMap
         int y = (cellId / 1000) % 1000;
         int z = cellId / 1000000;
         return new Vector3I(x, y, z);
+    }
+    public int GetPathLength(Vector3I startPosition, Vector3I endPosition)
+    {
+        int startId = GetCellIdFromPosition(startPosition);
+        int endId = GetCellIdFromPosition(endPosition);
+        if (aStar.HasPoint(startId) && aStar.HasPoint(endId))
+        {
+            var path = aStar.GetPointPath(startId, endId);
+            return path.Count(); // The length of the path is the number of steps in the path.
+        }
+        return int.MaxValue; // Return a large value if no path exists.
     }
 
     public int GetMeshLibraryItemIdByName(string name)

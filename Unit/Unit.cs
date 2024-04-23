@@ -12,6 +12,8 @@ public partial class Unit : Node3D
     [Export]
     public int Attack {  get; set; }
     [Export]
+    public int AttackRange { get; set; } = 1;
+    [Export]
     public int Movement { get; set; }
     [Export]
     public bool IsPlayerUnit { get; set; }
@@ -61,6 +63,37 @@ public partial class Unit : Node3D
             SetProcess(true);
         }
     }
+    public void AttackUnit(Unit target)
+    {
+        if (IsWithinAttackRange(target))
+        {
+            target.CurrentHealth -= Attack;
+            GD.Print(UnitName + " attacks " + target.UnitName + " for " + Attack + " damage.");
+
+            if (target.CurrentHealth <= 0)
+            {
+                GD.Print(target.UnitName + " has been defeated.");
+                // Additional logic for handling unit defeat, e.g., removing the unit from the game
+            }
+        }
+        else
+        {
+            GD.Print("Target is out of range.");
+        }
+    }
+
+    private bool IsWithinAttackRange(Unit target)
+    {
+        // Assuming you have access to the SimpleAStarPathfinding instance somehow:
+        SimpleAStarPathfinding pathfinder = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
+
+        int pathLength = pathfinder.GetPathLength(this.GridPosition, target.GridPosition);
+
+        // Attack range check now uses path length
+        return pathLength <= AttackRange && pathLength != int.MaxValue;
+    }
+
+
     public override void _Process(double delta)
     {
         if (pathQueue.Count > 0)
