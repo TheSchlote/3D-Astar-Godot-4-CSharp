@@ -85,9 +85,9 @@ public partial class Unit : Node3D
     private bool IsWithinAttackRange(Unit target)
     {
         // Assuming you have access to the SimpleAStarPathfinding instance somehow:
-        SimpleAStarPathfinding pathfinder = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
+        BattleArena pathfinder = GetTree().Root.GetNode<BattleArena>("BattleController/GridMap");
 
-        int pathLength = pathfinder.GetPathLength(this.GridPosition, target.GridPosition);
+        int pathLength = pathfinder.GetPathBetweenUnits(GridPosition, target.GridPosition);
 
         // Attack range check now uses path length
         return pathLength <= AttackRange && pathLength != int.MaxValue;
@@ -118,5 +118,6 @@ public partial class Unit : Node3D
                 Position += direction * step;
             }
         }
+        GridPosition = (Vector3I)Position;
     }
 }

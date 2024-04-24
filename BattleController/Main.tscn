@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://0gfxfe31xv1q" path="res://Camera/Gimbal.tscn" id="1_dn6od"]
 [ext_resource type="Script" path="res://BattleController/BattleController.cs" id="1_po38v"]
 [ext_resource type="MeshLibrary" uid="uid://dho4rwmsm26mg" path="res://BattleController/Tiles/Tiles.tres" id="2_nouf4"]
-[ext_resource type="Script" path="res://BattleController/SimpleAStarPathfinding.cs" id="3_p5oft"]
+[ext_resource type="Script" path="res://BattleController/BattleArena.cs" id="3_p5oft"]
 [ext_resource type="Script" path="res://BattleController/BattleStates/BattleStates.cs" id="5_eyab6"]
 [ext_resource type="Script" path="res://BattleController/BattleStates/StartState.cs" id="6_tmy6j"]
 [ext_resource type="Script" path="res://BattleController/BattleStates/PlayerState.cs" id="7_i84o5"]

@@ -10,6 +10,8 @@
 script = ExtResource("1_3ngum")
 MaxHealth = 10
 CurrentHealth = 10
+Attack = 5
+AttackRange = 2
 Movement = 3
 UnitName = "TestUnit"
 Speed = 5

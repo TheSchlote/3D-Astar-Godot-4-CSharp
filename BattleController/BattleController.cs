@@ -15,7 +15,7 @@ public partial class BattleController : Node3D
     [Export]
     public BattleStates BattleStates;
     [Export]
-    public SimpleAStarPathfinding BattleArena;
+    public BattleArena BattleArena;
 
     public List<Unit> TurnOrder = new List<Unit>();
     private const int ACTION_THRESHOLD = 100;
@@ -81,7 +81,7 @@ public partial class BattleController : Node3D
         {
             if (unit.IsPlayerUnit != currentUnit.IsPlayerUnit) // Ensure it's an enemy unit
             {
-                int pathLength = BattleArena.GetPathLength(currentUnit.GridPosition, unit.GridPosition);
+                int pathLength = BattleArena.GetPathBetweenUnits(currentUnit.GridPosition, unit.GridPosition);
                 if (pathLength < minPathLength)
                 {
                     minPathLength = pathLength;

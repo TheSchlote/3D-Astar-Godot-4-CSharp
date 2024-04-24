@@ -24,7 +24,7 @@ public partial class Gimbal : Node3D
         InnerGimbal = GetNode<Node3D>("InnerGimbal");
         Camera = GetNode<Camera3D>("InnerGimbal/Camera3D");
 
-        SimpleAStarPathfinding battleArena = GetTree().Root.GetNode<SimpleAStarPathfinding>("BattleController/GridMap");
+        BattleArena battleArena = GetTree().Root.GetNode<BattleArena>("BattleController/GridMap");
         if (battleArena != null)
         {
             Connect(SignalName.RequestPathUpdate, new Callable(battleArena, "UpdatePath"));

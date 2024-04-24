@@ -88,7 +88,6 @@ public partial class PlayerState : State
 
         if (hasMoved)
         {
-            currentUnit.GridPosition = (Vector3I)currentUnit.Position;
             battleController.BattleArena.SetCellItem((Vector3I)currentUnit.Position, battleController.BattleArena.GetMeshLibraryItemIdByName(battleController.BattleArena.PlayerOccupiedTileName));
         }
 
