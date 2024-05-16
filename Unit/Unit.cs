@@ -32,10 +32,9 @@ public partial class Unit : Node3D
         }
     }
     [Export]
-    public float MoveSpeed = 1f; // Units per second
+    public float MoveSpeed = 1f;
 
     private Queue<Vector3> pathQueue = new Queue<Vector3>();
-
 
     public int ActionPoints { get; set; } = 0;
     // Recalculate Action Points when speed is adjusted
@@ -44,17 +43,15 @@ public partial class Unit : Node3D
         // This method can adjust AP according to new speed, such as scaling them proportionally
     }
 
-    // Simulate the accumulation of action points
     public void AccumulateActionPoints()
     {
         ActionPoints += Speed;
     }
     public void FollowPath(List<Vector3> path)
     {
-        // Clear any existing path
         pathQueue.Clear();
 
-        for (int i = 0; i < Mathf.Min(path.Count, Movement); i++)
+        for (int i = 0; i <= Mathf.Min(path.Count, Movement); i++)
         {
             pathQueue.Enqueue(path[i]);
         }
@@ -73,7 +70,6 @@ public partial class Unit : Node3D
             if (target.CurrentHealth <= 0)
             {
                 GD.Print(target.UnitName + " has been defeated.");
-                // Additional logic for handling unit defeat, e.g., removing the unit from the game
             }
         }
         else
@@ -84,15 +80,12 @@ public partial class Unit : Node3D
 
     private bool IsWithinAttackRange(Unit target)
     {
-        // Assuming you have access to the SimpleAStarPathfinding instance somehow:
         BattleArena pathfinder = GetTree().Root.GetNode<BattleArena>("BattleController/GridMap");
 
         int pathLength = pathfinder.GetPathBetweenUnits(GridPosition, target.GridPosition);
 
-        // Attack range check now uses path length
         return pathLength <= AttackRange && pathLength != int.MaxValue;
     }
-
 
     public override void _Process(double delta)
     {
